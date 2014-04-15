@@ -1,0 +1,84 @@
+<div class="modal prefUI-dialog">
+    <div id="prefUI-header">
+        <h1 id="prefUI-dialog-title" class="dialog-title">Preferences</h1>
+    </div>
+    <div class="modal-body no-padding zebra-striped prefUI-body">
+        <form>
+<!--
+    jslint.options: (default undefined) An object with the default options for JSLint (see the JSLint reference for a list of these options). Options specified                         directly within a JS file will override this preference on a per-option basis (not automically).
+-    linting.enabled: (default true) Determines if Code Inspection is on
+-    useTabChar: (default false) True to use tabs instead of spaces
+-    tabSize: (default 4) Number of spaces to display for tabs
+-    spaceUnits: (default 4) Number of spaces to use for space-based indentation
+-    wordWrap: (default true) True if word wrap is on
+-    (new in 37) proxy: (default undefined) The URL of the proxy server used for extension installation (general syntax: username:password@server:port)
+-    (new in 37) smartIndent: (default true) Automatically indent when creating a new block
+    (new in 37) closeTags: (default { whenOpening: true, whenClosing: true, indentTags: [] }) Sets the tag closing options. See the CodeMirror documentation
+-    (new in 37) insertHintOnTab: (default false) True to insert the currently selected code hint on tab
+-    (new in 37) sortDirectoriesFirst: (default false for Mac, true otherwise) True to sort the directories first in the project tree
+-    (new in 37) staticserver.port: Port number that the built-in server should use for Live Preview
+-    (new in 38) scrollPastEnd: (default false) True to be able to scroll beyond the end of the document
+-    (new in 38) softTabs: (default true) False to turn off soft tabs behavior
+
+-->
+            <div>
+                <label>jslint.options</label>
+            </div>
+            <div>
+                <label>Code Inspection</label>
+                <input type="checkbox" id="prefUI-cI" value="true"/>
+            </div>
+            <div>
+                <label>Tabs instead of spaces</label>
+                <input type="checkbox" id="prefUI-tabChar" value="true"/>
+            </div>
+            <div>
+                <label>Tab size</label>
+                <input id="prefUI-tabSize"  type="text" name="prefUItabSize">
+            </div>
+            <div>
+                <label>Space units</label>
+                <input id="prefUI-spaceUnit"  type="text" name="prefUIspaceUnit">
+            </div>
+            <div>
+                <label>Word wrap</label>
+                <input type="checkbox" id="prefUI-wordWrap" value="true"/>
+            </div>
+            <div>
+                <label>Proxy</label>
+                <input id="prefUI-proxy"  type="text" name="prefUIproxy" value="username:password@server:port">
+            </div>
+            <div>
+                <label>Smart indent</label>
+                <input type="checkbox" id="prefUI-smartIndent" value="true"/>
+            </div>
+            <div>
+                <label>Close tags</label>
+            </div>
+            <div>
+                <label>Insert Hint On Tab</label>
+                <input type="checkbox" id="prefUI-insertHint" value="true"/>
+            </div>
+            <div>
+                <label>Sort Directories</label>
+                <input type="checkbox" id="prefUI-sortDir" value="true"/>
+            </div>
+            <div>
+                <label>Static server port</label>
+                <input id="prefUI-serverPort"  type="text" name="prefUIserverPort">
+            </div>
+            <div>
+                <label>Scroll past end</label>
+                <input type="checkbox" id="prefUI-scrollPastEnd" value="true"/>
+            </div>
+            <div>
+                <label>Soft tabs</label>
+                <input type="checkbox" id="prefUI-softTabs" value="true"/>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button id="prefUISubmit"  class="btn dialog-button primary">Save</button>
+        <button class="dialog-button btn left" data-button-id="close">Cancel</button>
+    </div>
+</div>
