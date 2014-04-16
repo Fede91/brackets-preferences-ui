@@ -14,8 +14,37 @@ define(function (require, exports, module) {
     function handlePreferencesUI() {
         ExtensionUtils.loadStyleSheet(module, "panel.css");
         Dialogs.showModalDialogUsingTemplate(PanelTemplate);
-        //alert(PreferencesManager.get("proxy"));
-        $("#prefUISubmit").on("click", function (e) {
+        /* Set current values */
+		/* jslint.options */
+        /* TODO */
+		/* Code Inspection */
+		$('#prefUI-cI').prop('checked', (PreferencesManager.get("linting.enabled") == "true") ? true : false);
+		/* useTabChar */
+		$('#prefUI-tabChar').prop('checked', (PreferencesManager.get("useTabChar") == "true") ? true : false);
+		/* tabSize */
+		$("#prefUI-tabSize").val(PreferencesManager.get("tabSize"));
+		/* spaceUnits */
+		$("#prefUI-spaceUnit").val(PreferencesManager.get("spaceUnits"));
+		/* wordWrap */
+		$('#prefUI-wordWrap').prop('checked', (PreferencesManager.get("wordWrap") == "true") ? true : false);
+		/* proxy */
+		$("#prefUI-proxy").val(PreferencesManager.get("proxy"));
+        /* smartIndent */
+		$('#prefUI-smartIndent').prop('checked', (PreferencesManager.get("smartIndent") == "true") ? true : false);
+		/* closeTags */
+        /* TODO*/
+		/* insertHintOnTab */
+		$('#prefUI-insertHint').prop('checked', (PreferencesManager.get("insertHintOnTab") == "true") ? true : false);
+		/* sortDirectoriesFirst */
+		$('#prefUI-sortDir').prop('checked', (PreferencesManager.get("sortDirectoriesFirst") == "true") ? true : false);
+		/* staticserver.port */
+		$("#prefUI-serverPort").val(PreferencesManager.get("staticserver.port"));
+		/* scrollPastEnd */
+		$('#prefUI-scrollPastEnd').prop('checked', (PreferencesManager.get("scrollPastEnd") == "true") ? true : false);
+		/* softTabs */
+		$('#prefUI-softTabs').prop('checked', (PreferencesManager.get("softTabs") == "true") ? true : false);
+		
+		$("#prefUISubmit").on("click", function (e) {
             /* jslint.options */
             /* TODO */
             /* Code Inspection */
