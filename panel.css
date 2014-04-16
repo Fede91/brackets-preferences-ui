@@ -15,7 +15,7 @@
 }
 
 .prefUI-body{
-    width:500px;
+    width:600px;
 }
 /*
 .ccext-warning{
@@ -25,6 +25,7 @@
 
 .prefUI-body div {
     clear: both;
+    margin-bottom: 15px;
 }
 
 .prefUI-body form {
@@ -45,6 +46,18 @@
     margin-left: 50px;
 }
 
-.prefUI-body form select{
-    margin-left:6px;    
+.no-magin{
+    width: 10%;
+    text-align: right;
+    float: left;
+    margin-left: 0px;
+}
+
+.prefUI-proxy-pref {
+    margin-left: 120px;
+}
+
+.prefUI-proxy-pref div span {
+    float: left;
+    margin-left:15px;
 }
