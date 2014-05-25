@@ -7,7 +7,7 @@
     "author": "Fede91 (http://federicobagato.it/)",
     "license": {
 		"type": "MIT"
-	}
+	},
     "repository": {
         "type": "git",
         "url": "https://github.com/Fede91/brackets-preferences-ui.git"
