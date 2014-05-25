@@ -1,5 +1,23 @@
+/*
+* main.js
+* Author: Fede91
+* Github: https://github.com/Fede91
+*
+* Made available under a MIT License:
+* http://www.opensource.org/licenses/mit-license.php
+*
+* main.js Copyright Fede91 2014.
+*/
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
 /*global define, $, brackets, window */
+require.config({
+    paths: {
+        "text" : "lib/text",
+        "i18n" : "lib/i18n"
+    },
+    locale: brackets.getLocale()
+});
+
 define(function (require, exports, module) {
     "use strict";
 
@@ -11,6 +29,8 @@ define(function (require, exports, module) {
     var ExtensionUtils      = brackets.getModule("utils/ExtensionUtils");
     var PreferencesManager  = brackets.getModule("preferences/PreferencesManager"),
         prefs               = PreferencesManager.getExtensionPrefs("prefUI");
+    
+    var Strings             = require("strings");
     
     function getProxyProtocol(proxyString) {
         if (proxyString != undefined && proxyString.indexOf('https') > -1) {
@@ -88,12 +108,13 @@ define(function (require, exports, module) {
 		/* scrollPastEnd */
 		$('#prefUI-scrollPastEnd').prop('checked', (PreferencesManager.get("scrollPastEnd") == true) ? true : false);
 		/* softTabs */
-		$('#prefUI-softTabs').prop('checked', (PreferencesManager.get("softTabs") == "true") ? true : false);
+		$('#prefUI-softTabs').prop('checked', (PreferencesManager.get("softTabs") == true) ? true : false);
     }//loadPreferences
     
     function handlePreferencesUI() {
         ExtensionUtils.loadStyleSheet(module, "panel.css");
-        Dialogs.showModalDialogUsingTemplate(PanelTemplate);
+        var localizedTemplate = Mustache.render(PanelTemplate, Strings);
+        Dialogs.showModalDialogUsingTemplate(localizedTemplate);
         
         /* Set current values */
         loadPreferences();

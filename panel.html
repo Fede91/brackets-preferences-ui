@@ -1,6 +1,6 @@
 <div class="modal prefUI-dialog">
     <div id="prefUI-header">
-        <h1 id="prefUI-dialog-title" class="dialog-title">Preferences</h1>
+        <h1 id="prefUI-dialog-title" class="dialog-title">{{TITLE_PREFERENCES}}</h1>
     </div>
     <div class="modal-body no-padding zebra-striped prefUI-body">
         <form>
@@ -8,89 +8,89 @@
     jslint.options: (default undefined) An object with the default options for JSLint (see the JSLint reference for a list of these options). Options specified                         directly within a JS file will override this preference on a per-option basis (not automically).
     (new in 37) closeTags: (default { whenOpening: true, whenClosing: true, indentTags: [] }) Sets the tag closing options. See the CodeMirror documentation
 -->
-            <div>
+            <!--div>
                 <label>jslint.options</label>
-            </div>
-												            <div>
-                <label>Code Inspection</label>
-                <input type="checkbox" id="prefUI-cI" value="true" title="Determines if Code Inspection is on (default true)"/>
-            </div>
-            <div>
-                <label>Tabs instead of spaces</label>
-                <input type="checkbox" id="prefUI-tabChar" value="true" title="True to use tabs instead of spaces (default 4)"/>
+            </div-->
+			<div>
+                <label>{{LBL_CODE_INSPECTION}}</label>
+                <input type="checkbox" id="prefUI-cI" value="true" title="{{DESC_C_IN}}"/>
             </div>
             <div>
-                <label>Tab size</label>
-                <input id="prefUI-tabSize"  type="text" name="prefUItabSize" title="Number of spaces to display for tabs (default 4)">
+                <label>{{LBL_TABS_INST_SPACE}}</label>
+                <input type="checkbox" id="prefUI-tabChar" value="true" title="{{DESC_T_I_SP}}"/>
             </div>
             <div>
-                <label>Space units</label>
-                <input id="prefUI-spaceUnit"  type="text" name="prefUIspaceUnit" title="Number of spaces to use for space-based indentation (default 4)">
+                <label>{{LBL_TAB_SIZE}}</label>
+                <input id="prefUI-tabSize"  type="text" name="prefUItabSize" title="{{DESC_T_SP}}">
             </div>
             <div>
-                <label>Word wrap</label>
-                <input type="checkbox" id="prefUI-wordWrap" value="true" title="True if word wrap is on (default true)"/>
+                <label>{{LBL_SPACE_UNITS}}</label>
+                <input id="prefUI-spaceUnit"  type="text" name="prefUIspaceUnit" title="{{DESC_S_UN}}">
             </div>
             <div>
-                <label>Proxy</label>
-                <input type="checkbox" id="prefUI-proxyEnabled" value="true"/> Enabled
+                <label>{{LBL_WORD_WRAP}}</label>
+                <input type="checkbox" id="prefUI-wordWrap" value="true" title="{{DESC_W_WR}}"/>
+            </div>
+            <div>
+                <label>{{LBL_PROXY}}</label>
+                <input type="checkbox" id="prefUI-proxyEnabled" value="true"/> {{LBL_ENABLED}}
                 <div class="prefUI-proxy-pref">
                     <div>
-                        <label>Protocol: </label>
-                        <span>none</span><input type="radio" name="prefUI-proxyProtocol" value="none" checked>
-                        <span>HTTP</span><input type="radio" name="prefUI-proxyProtocol" value="http">
-                        <span>HTTPS</span><input type="radio" name="prefUI-proxyProtocol" value="https">
+                        <label>{{LBL_PROXY_PROTOCOL}}</label>
+                        <span>{{LBL_PROXY_PROT_NONE}}</span><input type="radio" name="prefUI-proxyProtocol" value="none" checked>
+                        <span>{{LBL_PROXY_PROT_HTTP}}</span><input type="radio" name="prefUI-proxyProtocol" value="http">
+                        <span>{{LBL_PROXY_PROT_HTTPS}}</span><input type="radio" name="prefUI-proxyProtocol" value="https">
                     </div>
                     <div>
-                        <label>Username: </label>
+                        <label>{{LBL_PROXY_USERNAME}}</label>
                         <input id="prefUI-proxyUsername"  type="text" name="prefUIproxyUsername">
                     </div>
                     <div>
-                        <label>Password: </label>
+                        <label>{{LBL_PROXY_PASSWORD}}</label>
                         <input id="prefUI-proxyPsw"  type="text" name="prefUIproxyPsw">
                     </div>
                     <div>
-                        <label>Server: </label>
+                        <label>{{LBL_PROXY_SERVER}}</label>
                         <input id="prefUI-proxyServer"  type="text" name="prefUIproxyServer">
                     </div>
                     <div>
-                        <label>Port: </label>
+                        <label>{{LBL_PROXY_PORT}}</label>
                         <input id="prefUI-proxyPort"  type="text" name="prefUIproxyPort">
                     </div>
                 </div>
                 <!--input id="prefUI-proxy"  type="text" name="prefUIproxy"-->
             </div>
             <div>
-                <label>Smart indent</label>
-                <input type="checkbox" id="prefUI-smartIndent" value="true" title="Automatically indent when creating a new block (default true)"/>
+                <label>{{LBL_SMART_INDENT}}</label>
+                <input type="checkbox" id="prefUI-smartIndent" value="true" title="{{DESC_S_I}}"/>
             </div>
-            <div>
+            <!--div>
                 <label>Close tags</label>
+            </div-->
+            <div>
+                <label>{{LBL_INS_HINT_ON_TAB}}</label>
+                <input type="checkbox" id="prefUI-insertHint" value="true" title="{{DESC_H_TA}}"/>
             </div>
             <div>
-                <label>Insert Hint On Tab</label>
-                <input type="checkbox" id="prefUI-insertHint" value="true" title="True to insert the currently selected code hint on tab (default false)"/>
+                <label>{{LBL_SORT_DIR}}</label>
+                <input type="checkbox" id="prefUI-sortDir" value="true" title="{{DESC_S_DI}}"/>
             </div>
             <div>
-                <label>Sort Directories</label>
-                <input type="checkbox" id="prefUI-sortDir" value="true" title="True to sort the directories first in the project tree (default false for Mac, true otherwise)"/>
+                <label>{{LBL_STATIC_SERV_PORT}}</label>
+                <input id="prefUI-serverPort"  type="text" name="prefUIserverPort" title="{{DESC_P_SE}}">
             </div>
             <div>
-                <label>Static server port</label>
-                <input id="prefUI-serverPort"  type="text" name="prefUIserverPort" title="Port number that the built-in server should use for Live Preview">
+                <label>{{LBL_SCROLL_PAST_END}}</label>
+                <input type="checkbox" id="prefUI-scrollPastEnd" value="true" title="{{DESC_S_E}}"/>
             </div>
             <div>
-                <label>Scroll past end</label>
-                <input type="checkbox" id="prefUI-scrollPastEnd" value="true" title="True to be able to scroll beyond the end of the document (default false)"/>
-            </div>
-            <div>
-                <label>Soft tabs</label>
-                <input type="checkbox" id="prefUI-softTabs" value="true" title="False to turn off soft tabs behavior (default true)"/>
+                <label>{{LBL_SOFT_TABS}}</label>
+                <input type="checkbox" id="prefUI-softTabs" value="true" title="{{DESC_S_T}}"/>
             </div>
         </form>
     </div>
     <div class="modal-footer">
-        <button id="prefUISubmit"  class="btn dialog-button primary">Save</button>
-        <button class="dialog-button btn left" data-button-id="close">Cancel</button>
+        <button id="prefUISubmit"  class="btn dialog-button primary">{{BTT_SAVE}}</button>
+        <button class="dialog-button btn left" data-button-id="close">{{BTT_CANC}}</button>
     </div>
 </div>
