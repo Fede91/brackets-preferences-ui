@@ -166,7 +166,7 @@ define(function (require, exports, module) {
     }
 	
     var PREFUI_COMMAND_ID = "preferencesui.execute";
-    CommandManager.register("Preferences", PREFUI_COMMAND_ID, handlePreferencesUI);
+    CommandManager.register(Strings.TITLE_PREFERENCES, PREFUI_COMMAND_ID, handlePreferencesUI);
     var menu = Menus.getMenu(Menus.AppMenuBar.HELP_MENU);
     menu.addMenuItem(PREFUI_COMMAND_ID);
 });
