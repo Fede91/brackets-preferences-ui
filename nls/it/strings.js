@@ -14,11 +14,11 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
 /*global define, $, brackets, window */
 define({
-    "TITLE_PREFERENCES"    : "Preferenze",
+    "TITLE_PREFERENCES"    : "Preferenze...",
     "BTT_SAVE"             : "Salva",
     "BTT_CANC"             : "Annulla",
     "LBL_ENABLED"          : "Abilitato",
-    "LBL_CODE_INSPECTION"  : "Controllo del codice",
+    "LBL_CODE_INSPECTION"  : "Lint Files al salvataggio",
     "LBL_TABS_INST_SPACE"  : "Tabs invece di spazi",
     "LBL_TAB_SIZE"         : "Grandezza Tab",
     "LBL_SPACE_UNITS"      : "Spazi indentazione",
