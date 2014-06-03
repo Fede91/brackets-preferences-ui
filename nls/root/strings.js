@@ -14,7 +14,7 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
 /*global define, $, brackets, window */
 define({
-    "TITLE_PREFERENCES"    : "Preferences",
+    "TITLE_PREFERENCES"    : "Preferences...",
     "BTT_SAVE"             : "Save",
     "BTT_CANC"             : "Cancel",
     "LBL_ENABLED"          : " Enabled",
