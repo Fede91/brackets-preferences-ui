@@ -1,5 +1,8 @@
 # Brackets Preferences-UI Changelog
 
+## 0.2.2
+* Issue #5, #6: Fix strings.js
+
 ## 0.2.0
 * Issue #1: Added support for multilingual
 
