@@ -16,6 +16,10 @@
         "Preferences",
         "Plugin"
     ],
+    "i18n": [
+    	"en",
+    	"it"
+    ],
     "bugs": {
         "url": "https://github.com/Fede91/brackets-preferences-ui/issues"
     },
