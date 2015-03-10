@@ -1,26 +1,9 @@
-.prefUI-dialog{
-    top: 50%;
-    left: 50%;    
-    margin-top: -250px;
-    margin-left: -200px;
-}
-
-#prefUI-header{
-    width:100%;
-    border-bottom:1px solid #e0e0e0;    
-}
-
 #prefUI-dialog-title {
     margin-left:10px;
 }
-
+/*
 .prefUI-body{
     width:600px;
-}
-/*
-.ccext-warning{
-    width:100%;
-    background-color:#d0d0d0;    
 }*/
 
 .prefUI-body div {
@@ -29,9 +12,8 @@
 }
 
 .prefUI-body form {
-    margin-top:20px;
     width:100%;
-    height:300px;
+    min-height:300px;
 }
 
 .prefUI-body form input{
@@ -40,10 +22,10 @@
 }
 
 .prefUI-body form label{
-    width: 30%;
+    width: 25%;
     text-align: right;
     float: left;
-    margin-left: 50px;
+    margin-left: 20px;
 }
 
 .no-magin{
