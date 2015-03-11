@@ -9,7 +9,7 @@ This is an Extension for [Brackets](https://github.com/adobe/brackets).
 
 ## Features
 
-This extension is accessed using: Help > Preferences
+The settings window is available on `View > Preferences..` in the Brackets menu.
 
 ## License
 

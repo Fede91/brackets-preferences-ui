@@ -1,93 +1,179 @@
-<div class="about-dialog modal">
+<div class="about-dialog modal prefUI-dialog">
     <div class="modal-header">
-        <h1 id="prefUI-header" class="dialog-title">{{TITLE_PREFERENCES}}</h1>
+        <ul class="nav nav-tabs no-focus">
+            <li class="active"><a href="#prefUI-tab-gS" data-toggle="tab">{{LBL_CAT_GENERAL_SETT}}</a></li>
+            <li><a href="#prefUI-tab-eS" data-toggle="tab">{{LBL_CAT_EDITOR_SETT}}</a></li>
+            <li><a href="#prefUI-tab-nS" class="installed" data-toggle="tab">{{LBL_CAT_NETWORK_CON}}</a></li>
+        </ul>
     </div>
-    <div class="modal-body prefUI-body">
-        <form>
-<!--
-    jslint.options: (default undefined) An object with the default options for JSLint (see the JSLint reference for a list of these options). Options specified                         directly within a JS file will override this preference on a per-option basis (not automically).
-    (new in 37) closeTags: (default { whenOpening: true, whenClosing: true, indentTags: [] }) Sets the tag closing options. See the CodeMirror documentation
--->
-            <!--div>
-                <label>jslint.options</label>
-            </div-->
-			<div>
-                <label>{{LBL_CODE_INSPECTION}}</label>
-                <input type="checkbox" id="prefUI-cI" value="true" title="{{DESC_C_IN}}"/>
+    <div class="modal-body table-striped tab-content prefUI-body">
+        <!-- General Settings Section -->
+        <section class="extension-list tab-pane active" id="prefUI-tab-gS">
+            <div class="prefUI-sect-header">
+                <h2>{{LBL_CAT_GENERAL_SETT}}</h2>
             </div>
-            <div>
-                <label>{{LBL_TABS_INST_SPACE}}</label>
-                <input type="checkbox" id="prefUI-tabChar" value="true" title="{{DESC_T_I_SP}}"/>
-            </div>
-            <div>
-                <label>{{LBL_TAB_SIZE}}</label>
-                <input id="prefUI-tabSize"  type="text" name="prefUItabSize" title="{{DESC_T_SP}}">
-            </div>
-            <div>
-                <label>{{LBL_SPACE_UNITS}}</label>
-                <input id="prefUI-spaceUnit"  type="text" name="prefUIspaceUnit" title="{{DESC_S_UN}}">
-            </div>
-            <div>
-                <label>{{LBL_WORD_WRAP}}</label>
-                <input type="checkbox" id="prefUI-wordWrap" value="true" title="{{DESC_W_WR}}"/>
-            </div>
-            <div>
-                <label>{{LBL_PROXY}}</label>
-                <input type="checkbox" id="prefUI-proxyEnabled" value="true"/> {{LBL_ENABLED}}
-                <div class="prefUI-proxy-pref">
-                    <div>
-                        <label>{{LBL_PROXY_PROTOCOL}}</label>
-                        <span>{{LBL_PROXY_PROT_NONE}}</span><input type="radio" name="prefUI-proxyProtocol" value="none" checked>
-                        <span>{{LBL_PROXY_PROT_HTTP}}</span><input type="radio" name="prefUI-proxyProtocol" value="http">
-                        <span>{{LBL_PROXY_PROT_HTTPS}}</span><input type="radio" name="prefUI-proxyProtocol" value="https">
-                    </div>
-                    <div>
-                        <label>{{LBL_PROXY_USERNAME}}</label>
-                        <input id="prefUI-proxyUsername"  type="text" name="prefUIproxyUsername">
-                    </div>
-                    <div>
-                        <label>{{LBL_PROXY_PASSWORD}}</label>
-                        <input id="prefUI-proxyPsw"  type="text" name="prefUIproxyPsw">
-                    </div>
-                    <div>
-                        <label>{{LBL_PROXY_SERVER}}</label>
-                        <input id="prefUI-proxyServer"  type="text" name="prefUIproxyServer">
-                    </div>
-                    <div>
-                        <label>{{LBL_PROXY_PORT}}</label>
-                        <input id="prefUI-proxyPort"  type="text" name="prefUIproxyPort">
-                    </div>
+            <div class="prefUI-sect-body mg-top">
+                <!-- sortDirectoriesFirst -->
+                <div class="mg-top">
+                    <label><input type="checkbox" id="prefUI-sortDir" value="true" title="{{DESC_S_DI}}"/>{{LBL_SORT_DIR}}</label>
                 </div>
-                <!--input id="prefUI-proxy"  type="text" name="prefUIproxy"-->
+                <!-- staticserver.port -->
+                <div class="mg-top">
+                    <label>{{LBL_STATIC_SERV_PORT}}</label>
+                    <input id="prefUI-serverPort"  type="text" name="prefUIserverPort" title="{{DESC_P_SE}}"/>
+                </div>
             </div>
-            <div>
-                <label>{{LBL_SMART_INDENT}}</label>
-                <input type="checkbox" id="prefUI-smartIndent" value="true" title="{{DESC_S_I}}"/>
+        </section>
+        <!-- End General Settings Section -->
+
+        <!-- Editor Settings Section -->
+        <section class="extension-list tab-pane" id="prefUI-tab-eS">
+            <div class="prefUI-sect-header">
+                <h2>{{LBL_CAT_EDITOR_SETT}}</h2>
             </div>
-            <!--div>
-                <label>Close tags</label>
-            </div-->
-            <div>
-                <label>{{LBL_INS_HINT_ON_TAB}}</label>
-                <input type="checkbox" id="prefUI-insertHint" value="true" title="{{DESC_H_TA}}"/>
+            <div class="prefUI-sect-body mg-top">
+                <!-- linting.enabled -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-cI" value="true" title="{{DESC_C_IN}}"/>{{LBL_CODE_INSPECTION}}</label>
+                </div>
+                <!-- useTabChar -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-tabChar" value="true" title="{{DESC_T_I_SP}}"/>{{LBL_TABS_INST_SPACE}}</label>
+                </div>
+                <!-- tabSize -->
+                <div>
+                    <label>{{LBL_TAB_SIZE}}</label>
+                    <input id="prefUI-tabSize"  type="text" name="prefUItabSize" title="{{DESC_T_SP}}">
+                </div>
+                <!-- spaceUnits -->
+                <div>
+                    <label>{{LBL_SPACE_UNITS}}</label>
+                    <input id="prefUI-spaceUnit"  type="text" name="prefUIspaceUnit" title="{{DESC_S_UN}}">
+                </div>
+                <!-- wordWrap -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-wordWrap" value="true" title="{{DESC_W_WR}}"/>{{LBL_WORD_WRAP}}</label>
+                </div>
+                <!-- smartIndent -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-smartIndent" value="true" title="{{DESC_S_I}}"/>{{LBL_SMART_INDENT}}</label>
+                </div>
+                <!-- insertHintOnTab -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-insertHint" value="true" title="{{DESC_H_TA}}"/>{{LBL_INS_HINT_ON_TAB}}</label>
+                </div>
+                <!-- scrollPastEnd -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-scrollPastEnd" value="true" title="{{DESC_S_E}}"/>{{LBL_SCROLL_PAST_END}}</label>
+                </div>
+                <!-- softTabs -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-softTabs" value="true" title="{{DESC_S_T}}"/>{{LBL_SOFT_TABS}}</label>
+                </div>
+                <!-- closeBrackets -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-closeBrackets" value="true" title="{{DESC_CLOSEBRACKETS}}"/>{{LBL_CLOSEBRACKETS}}</label>
+                </div>
+                <!-- dragDropText -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-dragDropText" value="true" title="{{DESC_DRAGDROPTEXT}}"/>{{LBL_DRAGDROPTEXT}}</label>
+                </div>
+                <!-- showCursorWhenSelecting -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-showCursorWhenSelecting" value="true" title="{{DESC_SHOWCURSORWHENSEL}}"/>{{LBL_SHOWCURSORWHENSEL}}</label>
+                </div>
+                <!-- uppercaseColors -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-uppercaseColors" value="true" title="{{DESC_UPPERCASECOLORS}}"/>{{LBL_UPPERCASECOLORS}}</label>
+                </div>
+                <!-- highlightMatches -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-highlightMatches" value="true" title="{{DESC_HIGHLIGHTMATCHES}}"/>{{LBL_HIGHLIGHTMATCHES}}</label>
+                </div>
             </div>
-            <div>
-                <label>{{LBL_SORT_DIR}}</label>
-                <input type="checkbox" id="prefUI-sortDir" value="true" title="{{DESC_S_DI}}"/>
+            <!-- CODEHINT -->
+            <div class="prefUI-sect-header">
+                <h4>{{LBL_CODEHINT}}</h4>
             </div>
-            <div>
-                <label>{{LBL_STATIC_SERV_PORT}}</label>
-                <input id="prefUI-serverPort"  type="text" name="prefUIserverPort" title="{{DESC_P_SE}}">
+            <div class="prefUI-sect-body">
+                <!-- showCodeHints -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-showCodeHints" value="true" title="{{DESC_SHOWCODEHINTS}}"/>{{LBL_SHOWCODEHINTS}}</label>
+                </div>
+                <!-- maxCodeHints -->
+                <div>
+                    <label>{{DESC_MAXCODEHINTS}}</label>
+                    <input id="prefUI-maxCodeHints"  type="text" name="prefUIserverPort"/>
+                </div>
+                <!-- codehint.TagHints -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-TagHints" value="true"/>{{LBL_TAGHINTS}}</label>
+                </div>
+                <!-- codehint.SpecialCharHints -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-SpecialCharHints" value="true"/>{{LBL_SPECIALCHARHINTS}}</label>
+                </div>
+                <!-- codehint.AttrHints -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-AttrHints" value="true"/>{{LBL_ATTRHINTS}}</label>
+                </div>
+                <!-- codehint.CssPropHints -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-CssPropHints" value="true"/>{{LBL_CSSPROPHINTS}}</label>
+                </div>
+                <!-- codehint.JSHints -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-JSHints" value="true"/>{{LBL_JSHINTS}}</label>
+                </div>
+                <!-- codehint.SVGHints -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-SVGHints" value="true"/>{{LBL_SVGHINTS}}</label>
+                </div>
+                <!-- codehint.UrlCodeHints -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-UrlCodeHints" value="true"/>{{LBL_URLCODEHINTS}}</label>
+                </div>
+                <!-- jscodehints.noHintsOnDot -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-noHintsOnDot" value="true"/>{{LBL_NOHINTSONDOT}}</label>
+                </div>
+
             </div>
-            <div>
-                <label>{{LBL_SCROLL_PAST_END}}</label>
-                <input type="checkbox" id="prefUI-scrollPastEnd" value="true" title="{{DESC_S_E}}"/>
+        </section>
+        <!-- End Editor Settings Section -->
+
+        <!-- Network Settings Section -->
+        <section class="extension-list tab-pane" id="prefUI-tab-nS">
+            <div class="prefUI-sect-header">
+                <h2>{{LBL_PROXY}}</h2>
             </div>
-            <div>
-                <label>{{LBL_SOFT_TABS}}</label>
-                <input type="checkbox" id="prefUI-softTabs" value="true" title="{{DESC_S_T}}"/>
+            <div class="prefUI-sect-body">
+                <label class="mg-top"><input type="checkbox" id="prefUI-proxyEnabled" value="true"/>{{LBL_ENABLED}}</label>
+                <div class="mg-top">{{LBL_PROXY_PROTOCOL}}</div>
+                <div class="prefUI-proxy-prot-wrapper">
+                    <label><input type="radio" name="prefUI-proxyProtocol" value="none" checked> {{LBL_PROXY_PROT_NONE}}</label>
+                    <label><input type="radio" name="prefUI-proxyProtocol" value="http">{{LBL_PROXY_PROT_HTTP}}</label>
+                    <label><input type="radio" name="prefUI-proxyProtocol" value="https">{{LBL_PROXY_PROT_HTTPS}}</label>
+                </div>
+                <div class="mg-top" style="clear:both">
+                    <label>{{LBL_PROXY_USERNAME}}</label>
+                    <input id="prefUI-proxyUsername"  type="text" name="prefUIproxyUsername">
+                </div>
+                <div>
+                    <label>{{LBL_PROXY_PASSWORD}}</label>
+                    <input id="prefUI-proxyPsw"  type="text" name="prefUIproxyPsw">
+                </div>
+                <div>
+                    <label>{{LBL_PROXY_SERVER}}</label>
+                    <input id="prefUI-proxyServer"  type="text" name="prefUIproxyServer">
+                </div>
+                <div>
+                    <label>{{LBL_PROXY_PORT}}</label>
+                    <input id="prefUI-proxyPort"  type="text" name="prefUIproxyPort">
+                </div>
             </div>
-        </form>
+        </section>
+        <!-- End Network Settings Section -->	
     </div>
 	<div class="modal-footer">
 		<button id="prefUISubmit"  class="btn dialog-button primary">{{BTT_SAVE}}</button>

@@ -23,15 +23,15 @@ define(function (require, exports, module) {
 
     var CommandManager = brackets.getModule("command/CommandManager"),
         Menus          = brackets.getModule("command/Menus");
-    
+
     var Dialogs             = brackets.getModule("widgets/Dialogs");
     var PanelTemplate       = require("text!panel.html");
     var ExtensionUtils      = brackets.getModule("utils/ExtensionUtils");
     var PreferencesManager  = brackets.getModule("preferences/PreferencesManager"),
         prefs               = PreferencesManager.getExtensionPrefs("prefUI");
-    
+
     var Strings             = require("strings");
-    
+
     function getProxyProtocol(proxyString) {
         if (proxyString != undefined && proxyString.indexOf('https') > -1) {
             return 'https';
@@ -41,14 +41,14 @@ define(function (require, exports, module) {
         }
         return 'none';
     }//getProxyProtocol
-    
+
     function getProxyData(proxyProtocol, proxyString, type) {
         var _protocolLength = (proxyProtocol == 'none') ? 0 : proxyProtocol.length+3;
         var _proxySNoProt = proxyString.substring(_protocolLength);
         var _splitPS = _proxySNoProt.split('@');
         var _userPsw = _splitPS[0].split(':');
         var _serverPort = _splitPS[1].split(':');
-        
+
         switch(type){
             case 'USERNAME':
                 return _userPsw[0];
@@ -64,16 +64,14 @@ define(function (require, exports, module) {
                 break;
         }
     }//getProxyUsername
-    
+
     function loadPreferences() {
         var _proxyString = PreferencesManager.get("proxy");
         if (_proxyString == null || _proxyString == undefined) {
             _proxyString = prefs.get("proxy-string");
         }
-        
+
         var _proxyProtocol = getProxyProtocol(_proxyString);
-        /* jslint.options */
-        /* TODO */
 		/* Code Inspection */
 		$('#prefUI-cI').prop('checked', (PreferencesManager.get("linting.enabled") == true) ? true : false);
 		/* useTabChar */
@@ -87,18 +85,17 @@ define(function (require, exports, module) {
 		/* proxy */
 		$('#prefUI-proxyEnabled').prop('checked', (prefs.get("proxy-enabled") == true) ? true : false);
         $('input[name=prefUI-proxyProtocol][value='+_proxyProtocol+']').attr('checked', true);
-        
+
         if(_proxyString != undefined && _proxyString != null) {
-            $('#prefUI-proxyUsername').val(getProxyData(_proxyProtocol, _proxyString, 'USERNAME')); 
-            $('#prefUI-proxyPsw').val(getProxyData(_proxyProtocol, _proxyString, 'PASSWORD')); 
-            $('#prefUI-proxyServer').val(getProxyData(_proxyProtocol, _proxyString, 'SERVER')); 
-            $('#prefUI-proxyPort').val(getProxyData(_proxyProtocol, _proxyString, 'PORT')); 
+            $('#prefUI-proxyUsername').val(getProxyData(_proxyProtocol, _proxyString, 'USERNAME'));
+            $('#prefUI-proxyPsw').val(getProxyData(_proxyProtocol, _proxyString, 'PASSWORD'));
+            $('#prefUI-proxyServer').val(getProxyData(_proxyProtocol, _proxyString, 'SERVER'));
+            $('#prefUI-proxyPort').val(getProxyData(_proxyProtocol, _proxyString, 'PORT'));
         }
         $("#prefUI-proxy").val(PreferencesManager.get("proxy"));
         /* smartIndent */
 		$('#prefUI-smartIndent').prop('checked', (PreferencesManager.get("smartIndent") == true) ? true : false);
 		/* closeTags */
-        /* TODO*/
 		/* insertHintOnTab */
 		$('#prefUI-insertHint').prop('checked', (PreferencesManager.get("insertHintOnTab") == true) ? true : false);
 		/* sortDirectoriesFirst */
@@ -109,19 +106,49 @@ define(function (require, exports, module) {
 		$('#prefUI-scrollPastEnd').prop('checked', (PreferencesManager.get("scrollPastEnd") == true) ? true : false);
 		/* softTabs */
 		$('#prefUI-softTabs').prop('checked', (PreferencesManager.get("softTabs") == true) ? true : false);
+        /* closeBrackets */
+        $('#prefUI-closeBrackets').prop('checked', (PreferencesManager.get("closeBrackets") == true) ? true : false);
+        /* dragDropText */
+        $('#prefUI-dragDropText').prop('checked', (PreferencesManager.get("dragDropText") == true) ? true : false);
+        /* showCursorWhenSelecting */
+        $('#prefUI-showCursorWhenSelecting').prop('checked', (PreferencesManager.get("showCursorWhenSelecting") == true) ? true : false);
+        /* uppercaseColors */
+        $('#prefUI-uppercaseColors').prop('checked', (PreferencesManager.get("uppercaseColors") == true) ? true : false);
+        /* highlightMatches */
+        $('#prefUI-highlightMatches').prop('checked', (PreferencesManager.get("highlightMatches") == true) ? true : false);
+        /* showCodeHints */
+        $('#prefUI-showCodeHints').prop('checked', (PreferencesManager.get("showCodeHints") == true) ? true : false);
+        /* maxCodeHints */
+        $("#prefUI-maxCodeHints").val(PreferencesManager.get("maxCodeHints"));
+        /* codehint.TagHints */
+        $('#prefUI-TagHints').prop('checked', (PreferencesManager.get("codehint.TagHints") == true) ? true : false);
+        /* codehint.SpecialCharHints */
+        $('#prefUI-SpecialCharHints').prop('checked', (PreferencesManager.get("codehint.SpecialCharHints") == true) ? true : false);
+        /* codehint.AttrHints */
+        $('#prefUI-AttrHints').prop('checked', (PreferencesManager.get("codehint.AttrHints") == true) ? true : false);
+        /* codehint.CssPropHints */
+        $('#prefUI-CssPropHints').prop('checked', (PreferencesManager.get("codehint.CssPropHints") == true) ? true : false);
+        /* codehint.JSHints */
+        $('#prefUI-JSHints').prop('checked', (PreferencesManager.get("codehint.JSHints") == true) ? true : false);
+        /* codehint.SVGHints */
+        $('#prefUI-SVGHints').prop('checked', (PreferencesManager.get("codehint.SVGHints") == true) ? true : false);
+        /* codehint.UrlCodeHints */
+        $('#prefUI-UrlCodeHints').prop('checked', (PreferencesManager.get("codehint.UrlCodeHints") == true) ? true : false);
+        /* jscodehints.noHintsOnDot */
+        $('#prefUI-noHintsOnDot').prop('checked', (PreferencesManager.get("jscodehints.noHintsOnDot") == true) ? true : false);
+
     }//loadPreferences
-    
+
     function handlePreferencesUI() {
         ExtensionUtils.loadStyleSheet(module, "panel.css");
         var localizedTemplate = Mustache.render(PanelTemplate, Strings);
         Dialogs.showModalDialogUsingTemplate(localizedTemplate);
-        
+
         /* Set current values */
         loadPreferences();
-        
+
 		$("#prefUISubmit").on("click", function (e) {
             /* jslint.options */
-            /* TODO */
             /* Code Inspection */
             PreferencesManager.set("linting.enabled", ($('#prefUI-cI').is(':checked')) ? true : false);
             /* useTabChar */
@@ -135,7 +162,7 @@ define(function (require, exports, module) {
             /* proxy */
             prefs.set("proxy-enabled", $('#prefUI-proxyEnabled').is(':checked'));
             var _proxyString = "";
-            
+
             if($('input[name=prefUI-proxyProtocol]:checked').val() != "none"){
                 _proxyString = $('input[name=prefUI-proxyProtocol]:checked').val() + "://";
             }
@@ -149,7 +176,6 @@ define(function (require, exports, module) {
             /* smartIndent */
             PreferencesManager.set("smartIndent", ($('#prefUI-smartIndent').is(':checked')) ? true : false);
             /* closeTags */
-            /* TODO*/
             /* insertHintOnTab */
             PreferencesManager.set("insertHintOnTab", ($('#prefUI-insertHint').is(':checked')) ? true : false);
             /* sortDirectoriesFirst */
@@ -160,13 +186,44 @@ define(function (require, exports, module) {
             PreferencesManager.set("scrollPastEnd", ($('#prefUI-scrollPastEnd').is(':checked')) ? true : false);
             /* softTabs */
             PreferencesManager.set("softTabs", ($('#prefUI-softTabs').is(':checked')) ? true : false);
-            
+            /* closeBrackets */
+            PreferencesManager.set("closeBrackets", ($('#prefUI-closeBrackets').is(':checked')) ? true : false);
+            /* dragDropText */
+            PreferencesManager.set("dragDropText", ($('#prefUI-dragDropText').is(':checked')) ? true : false);
+            /* showCursorWhenSelecting */
+            PreferencesManager.set("showCursorWhenSelecting", ($('#prefUI-showCursorWhenSelecting').is(':checked')) ? true : false);
+            /* uppercaseColors */
+            PreferencesManager.set("uppercaseColors", ($('#prefUI-uppercaseColors').is(':checked')) ? true : false);
+            /* highlightMatches */
+            PreferencesManager.set("highlightMatches", ($('#prefUI-highlightMatches').is(':checked')) ? true : false);
+            /* showCodeHints */
+            PreferencesManager.set("showCodeHints", ($('#prefUI-showCodeHints').is(':checked')) ? true : false);
+            /* maxCodeHints */
+            PreferencesManager.set("maxCodeHints", $("#prefUI-maxCodeHints").val());
+            /* codehint.TagHints */
+            PreferencesManager.set("codehint.TagHints", ($('#prefUI-TagHints').is(':checked')) ? true : false);
+            /* codehint.SpecialCharHints */
+            PreferencesManager.set("codehint.SpecialCharHints", ($('#prefUI-SpecialCharHints').is(':checked')) ? true : false);
+            /* codehint.AttrHints */
+            PreferencesManager.set("codehint.AttrHints", ($('#prefUI-AttrHints').is(':checked')) ? true : false);
+            /* codehint.CssPropHints */
+            PreferencesManager.set("codehint.CssPropHints", ($('#prefUI-CssPropHints').is(':checked')) ? true : false);
+            /* codehint.JSHints */
+            PreferencesManager.set("codehint.JSHints", ($('#prefUI-JSHints').is(':checked')) ? true : false);
+            /* codehint.SVGHints */
+            PreferencesManager.set("codehint.SVGHints", ($('#prefUI-SVGHints').is(':checked')) ? true : false);
+            /* codehint.UrlCodeHints */
+            PreferencesManager.set("codehint.UrlCodeHints", ($('#prefUI-UrlCodeHints').is(':checked')) ? true : false);
+            /* jscodehints.noHintsOnDot */
+            PreferencesManager.set("jscodehints.noHintsOnDot", ($('#prefUI-noHintsOnDot').is(':checked')) ? true : false);
+
             PreferencesManager.save();
         });
     }
-	
+
     var PREFUI_COMMAND_ID = "preferencesui.execute";
     CommandManager.register(Strings.TITLE_PREFERENCES, PREFUI_COMMAND_ID, handlePreferencesUI);
-    var menu = Menus.getMenu(Menus.AppMenuBar.HELP_MENU);
+    var menu = Menus.getMenu(Menus.AppMenuBar.VIEW_MENU);
+    menu.addMenuDivider();
     menu.addMenuItem(PREFUI_COMMAND_ID);
 });

@@ -1,31 +1,10 @@
-#prefUI-dialog-title {
-    margin-left:10px;
-}
-/*
-.prefUI-body{
-    width:600px;
-}*/
 
-.prefUI-body div {
-    clear: both;
-    margin-bottom: 15px;
+.prefUI-sect-body {
+    padding-left: 20px;
 }
 
-.prefUI-body form {
-    width:100%;
-    min-height:300px;
-}
-
-.prefUI-body form input{
-   margin-left:15px;
-   float: left;
-}
-
-.prefUI-body form label{
-    width: 25%;
-    text-align: right;
-    float: left;
-    margin-left: 20px;
+.mg-top {
+    margin-top: 10px;
 }
 
 .no-magin{
@@ -42,4 +21,53 @@
 .prefUI-proxy-pref div span {
     float: left;
     margin-left:15px;
+}
+
+.prefUI-dialog .modal-header {
+    padding: 0px;
+}
+
+.prefUI-dialog .modal-header .nav-tabs {
+    border-color: #343434;
+    margin-bottom: 0px;
+    border-color: #343434;
+}
+
+.prefUI-proxy-prot-wrapper {
+    clear: both;
+}
+
+.prefUI-dialog h1,
+.prefUI-dialog h2,
+.prefUI-dialog h3,
+.prefUI-dialog h4 {
+    margin-top: 0px;
+    margin-bottom: 10px;
+    line-height: 25px;
+}
+
+.prefUI-proxy-prot-wrapper label {
+    float: left;
+    margin-left: 20px;
+}
+
+.prefUI-proxy-prot-wrapper label:first-child {
+    margin-left: 0px;
+}
+
+.prefUI-dialog .nav-tabs a,
+.prefUI-dialog .nav-tabs a:hover {
+    color: #fff;
+    font-size: 1.1em;
+}
+
+.prefUI-dialog .nav-tabs a:hover {
+    background-color: #2c2c2c;
+    border-color: #202020 #202020 transparent #202020;
+}
+
+.prefUI-dialog .nav-tabs .active > a,
+.prefUI-dialog .nav-tabs .active > a:hover {
+background-color: #2c2c2c;
+border-color: #202020 #202020 transparent #202020;
 }
