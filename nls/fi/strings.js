@@ -38,7 +38,7 @@ define({
     "LBL_SPECIALCHARHINTS"  : "HTML-entiteettien vihjeet",
     "LBL_SVGHINTS"          : "SVG-koodivihjeet",
     "LBL_TAGHINTS"          : "HTML-tägien vihjeet",
-    "LBL_URLCODEHINTS"      : "URL-vihjeet HTML:ssä ja CSS/LESS/SCSS:ssä",
+    "LBL_URLCODEHINTS"      : "URL-vihjeet HTML- ja CSS/LESS/SCSS-tiedostoissa",
     "LBL_NOHINTSONDOT"      : "Älä näytä JS-koodivihjeitä automaattisesti, kun . kirjoitetaan",
     "LBL_HIGHLIGHTMATCHES"  : "Valintaa vastaavien merkkijonojen automaattinen korostus",
     "DESC_HIGHLIGHTMATCHES" : "Korosta kaikki merkkijonot, jotka vastaavat nykyistä valintaa. (Mitään ei korosteta, kun valintaa ei ole.)",
