@@ -73,5 +73,5 @@ define({
     "DESC_S_DI"             : "Jos käytössä, hakemistot näytetään projektipuun alussa (oletuksena Macille epätosi, muille tosi)",
     "DESC_P_SE"             : "Porttinumero, jota sisäänrakennetun palvelimen pitäisi käyttää esikatselussa",
     "DESC_S_E"              : "Jos tosi, on mahdollista vierittää yli dokumentin loppuun (oletuksena epätosi)",
-    "DESC_S_T"              : "Jos epätosi, pehmeät sarkainmerkit /u2011toiminto on poistettu käytöstä (oletuksena tosi)"
+    "DESC_S_T"              : "Jos epätosi, pehmeät sarkainmerkit \u2011toiminto on poistettu käytöstä (oletuksena tosi)"
 });
