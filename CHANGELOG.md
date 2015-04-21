@@ -1,5 +1,9 @@
 # Brackets Preferences-UI Changelog
 
+## v1.1.0
+* #11: Finnish translation
+* #12: Update IT string.js 
+
 ## v1.0.0
 * Improved UI; now the settings window is available on `View > Preferences..` in the Brackets menu.
 * Issue #7
