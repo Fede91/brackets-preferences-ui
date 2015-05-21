@@ -137,6 +137,19 @@ define(function (require, exports, module) {
         /* jscodehints.noHintsOnDot */
         $('#prefUI-noHintsOnDot').prop('checked', (PreferencesManager.get("jscodehints.noHintsOnDot") == true) ? true : false);
 
+        /* CodeFolding */
+        /* code-folding​.alwaysUseIndentFold */
+        $('#prefUI-CFIndentFold').prop('checked', (PreferencesManager.get("code-folding.alwaysUseIndentFold") == true) ? true : false);
+        /* code-folding.enabled */
+        $('#prefUI-CFEnabled').prop('checked', (PreferencesManager.get("code-folding.enabled") == true) ? true : false);
+        /* code-folding.hideUntilMouseover */
+        $('#prefUI-CFHideMouseOver').prop('checked', (PreferencesManager.get("code-folding.hideUntilMouseover") == true) ? true : false);
+        /* code-folding.saveFoldStates */
+        $('#prefUI-CFSaveFoldState').prop('checked', (PreferencesManager.get("code-folding.saveFoldStates") == true) ? true : false);
+        /* code-folding.maxFoldLevel */
+        $("#prefUI-CFMaxFoldLevel").val(PreferencesManager.get("code-folding.maxFoldLevel"));
+        /* code-folding.minFoldSize */
+        $("#prefUI-CFMinFoldSize").val(PreferencesManager.get("code-folding.minFoldSize"));
     }//loadPreferences
 
     function handlePreferencesUI() {
@@ -216,6 +229,20 @@ define(function (require, exports, module) {
             PreferencesManager.set("codehint.UrlCodeHints", ($('#prefUI-UrlCodeHints').is(':checked')) ? true : false);
             /* jscodehints.noHintsOnDot */
             PreferencesManager.set("jscodehints.noHintsOnDot", ($('#prefUI-noHintsOnDot').is(':checked')) ? true : false);
+
+            /* CodeFolding */
+            /* code-folding.alwaysUseIndentFold */
+            PreferencesManager.set("code-folding.alwaysUseIndentFold", ($('#prefUI-CFIndentFold').is(':checked')) ? true : false);
+            /* code-folding.enabled */
+            PreferencesManager.set("code-folding.enabled", ($('#prefUI-CFEnabled').is(':checked')) ? true : false);
+            /* code-folding​.hideUntilMouseover */
+            PreferencesManager.set("code-folding.hideUntilMouseover", ($('#prefUI-CFHideMouseOver').is(':checked')) ? true : false);
+            /* code-folding.saveFoldStates */
+            PreferencesManager.set("code-folding.saveFoldStates", ($('#prefUI-CFSaveFoldState').is(':checked')) ? true : false);
+            /* code-folding.maxFoldLevel */
+            PreferencesManager.set("code-folding.maxFoldLevel", $("#prefUI-CFMaxFoldLevel").val());
+            /* code-folding.minFoldSize */
+            PreferencesManager.set("code-folding.minFoldSize", $("#prefUI-CFMinFoldSize").val());
 
             PreferencesManager.save();
         });

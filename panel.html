@@ -1,4 +1,4 @@
-<div class="about-dialog modal prefUI-dialog">
+<div class="extension-manager-dialog about-dialog modal prefUI-dialog">
     <div class="modal-header">
         <ul class="nav nav-tabs no-focus">
             <li class="active"><a href="#prefUI-tab-gS" data-toggle="tab">{{LBL_CAT_GENERAL_SETT}}</a></li>
@@ -139,6 +139,38 @@
                 </div>
 
             </div>
+            <!-- CODE-FOLDING -->
+            <div class="prefUI-sect-header">
+                <h4>{{LBL_CF_CODEFOLDING}}</h4>
+            </div>
+            <div class="prefUI-sect-body">
+                <!-- enable -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-CFEnabled" value="true" title="{{LBL_ENABLED}}"/>{{LBL_ENABLED}}</label>
+                </div>
+                <!-- IndentFold -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-CFIndentFold" value="true" title="{{LBL_CF_USEINDENTFOLD}}"/>{{LBL_CF_USEINDENTFOLD}}</label>
+                </div>
+                <!-- HideMouseOver -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-CFHideMouseOver" value="true" title="{{LBL_CF_HIDEMOUSEOVER}}"/>{{LBL_CF_HIDEMOUSEOVER}}</label>
+                </div>
+                <!-- SaveFoldState -->
+                <div>
+                    <label><input type="checkbox" id="prefUI-CFSaveFoldState" value="true" title="{{LBL_CF_SAVEFOLDSTATE}}"/>{{LBL_CF_SAVEFOLDSTATE}}</label>
+                </div>
+                <!-- MaxFoldLevel -->
+                <div>
+                    <label>{{LBL_CF_MAXFOLDLEVEL}}</label>
+                    <input id="prefUI-CFMaxFoldLevel"  type="text" name="prefUICFMaxFoldLevel" title="{{LBL_CF_MAXFOLDLEVEL}}">
+                </div>
+                <!-- MinFoldSize -->
+                <div>
+                    <label>{{LBL_CF_MINFOLDSIZE}}</label>
+                    <input id="prefUI-CFMinFoldSize"  type="text" name="prefUICFMinFoldSize" title="{{LBL_CF_MINFOLDSIZE}}">
+                </div>
+            </div>
         </section>
         <!-- End Editor Settings Section -->
 
@@ -173,7 +205,7 @@
                 </div>
             </div>
         </section>
-        <!-- End Network Settings Section -->	
+        <!-- End Network Settings Section -->
     </div>
 	<div class="modal-footer">
 		<button id="prefUISubmit"  class="btn dialog-button primary">{{BTT_SAVE}}</button>

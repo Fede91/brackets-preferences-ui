@@ -33,6 +33,14 @@ define({
     "LBL_SHOWCODEHINTS"    : "Visualizza i suggerimenti",
     "DESC_SHOWCODEHINTS"   : "Se selezionato, tutti i suggerimenti sono attivi",
     "DESC_MAXCODEHINTS"    : "Numero massimo di suggerimenti da visualizzare",
+
+    "LBL_CF_CODEFOLDING"   : "Compressione del codice",
+    "LBL_CF_USEINDENTFOLD" : "Genera compressione del codice al cambio dell'indentazione",
+    "LBL_CF_HIDEMOUSEOVER" : "Espandi compressione al passaggio del mouse",
+    "LBL_CF_MAXFOLDLEVEL"  : "Numero massimo di livelli da comprimere tramite il comando 'Comprimi tutto'",
+    "LBL_CF_MINFOLDSIZE"   : "Minimo numero di righe prima che venga visualizzata l'icona di sezione comprimibile",
+    "LBL_CF_SAVEFOLDSTATE" : "Salva le compressioni",
+
     "LBL_ATTRHINTS"        : "Suggerimenti attributi HTML",
     "LBL_CSSPROPHINTS"     : "Suggerimenti sulle proprietà CSS/LESS/SCSS",
     "LBL_JSHINTS"          : "Suggerimenti JavaScript",

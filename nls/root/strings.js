@@ -32,6 +32,14 @@ define({
     "LBL_SHOWCODEHINTS"    : "Show code hints",
     "DESC_SHOWCODEHINTS"   : "If selected, all code hints are enabled",
     "DESC_MAXCODEHINTS"    : "Maximum code hints displayed at once",
+
+    "LBL_CF_CODEFOLDING"   : "Code folding",
+    "LBL_CF_USEINDENTFOLD" : "Always use indent folding",
+    "LBL_CF_HIDEMOUSEOVER" : "Hide until mouse over",
+    "LBL_CF_MAXFOLDLEVEL"  : "Max folding level",
+    "LBL_CF_MINFOLDSIZE"   : "Min folding size",
+    "LBL_CF_SAVEFOLDSTATE" : "Save folding states",
+
     "LBL_ATTRHINTS"        : "HTML attribute hints",
     "LBL_CSSPROPHINTS"     : "CSS/LESS/SCSS property hints",
     "LBL_JSHINTS"          : "JavaScript code hints",

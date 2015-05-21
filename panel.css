@@ -1,4 +1,8 @@
 
+.prefUI-body {
+    padding: 20px !important;
+}
+
 .prefUI-sect-body {
     padding-left: 20px;
 }
@@ -28,9 +32,9 @@
 }
 
 .prefUI-dialog .modal-header .nav-tabs {
-    border-color: #343434;
+    /*border-color: #343434;*/
     margin-bottom: 0px;
-    border-color: #343434;
+    /*border-color: #343434;*/
 }
 
 .prefUI-proxy-prot-wrapper {
@@ -42,8 +46,8 @@
 .prefUI-dialog h3,
 .prefUI-dialog h4 {
     margin-top: 0px;
-    margin-bottom: 10px;
-    line-height: 25px;
+    margin-bottom: 10px !important;
+    line-height: 25px !important;
 }
 
 .prefUI-proxy-prot-wrapper label {
@@ -55,19 +59,6 @@
     margin-left: 0px;
 }
 
-.prefUI-dialog .nav-tabs a,
-.prefUI-dialog .nav-tabs a:hover {
-    color: #fff;
-    font-size: 1.1em;
-}
-
-.prefUI-dialog .nav-tabs a:hover {
-    background-color: #2c2c2c;
-    border-color: #202020 #202020 transparent #202020;
-}
-
-.prefUI-dialog .nav-tabs .active > a,
-.prefUI-dialog .nav-tabs .active > a:hover {
-background-color: #2c2c2c;
-border-color: #202020 #202020 transparent #202020;
+.prefUI-dialog .nav-tabs a {
+    font-size: 1.1em !important;
 }
