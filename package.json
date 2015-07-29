@@ -19,7 +19,8 @@
     "i18n": [
     	"en",
     	"it",
-		"fi"
+    	"fi",
+    	"tr",
     ],
     "bugs": {
         "url": "https://github.com/Fede91/brackets-preferences-ui/issues"
