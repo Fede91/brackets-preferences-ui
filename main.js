@@ -32,46 +32,42 @@ define(function (require, exports, module) {
 
     var Strings             = require("strings");
 
-    function getProxyProtocol(proxyString) {
-        if (proxyString != undefined && proxyString.indexOf('https') > -1) {
-            return 'https';
-        }
-        if (proxyString != undefined && proxyString.indexOf('http') > -1) {
-            return 'http';
-        }
-        return 'none';
-    }//getProxyProtocol
+    function proxyDataFromString(str) {
+        var matches = /^(?:(https?):\/\/)?(?:([^\s:@]+):([^\s:@]+)@)?([^\s:@]+)(?::([0-9]+))?$/i.exec(str);
 
-    function getProxyData(proxyProtocol, proxyString, type) {
-        var _protocolLength = (proxyProtocol == 'none') ? 0 : proxyProtocol.length+3;
-        var _proxySNoProt = proxyString.substring(_protocolLength);
-        var _splitPS = _proxySNoProt.split('@');
-        var _userPsw = _splitPS[0].split(':');
-        var _serverPort = _splitPS[1].split(':');
+        if (matches)
+            return {
+                protocol: matches[1],
+                username: matches[2],
+                password: matches[3],
+                server:   matches[4],
+                port:     matches[5],
+            };
+        return null;
+    }//proxyDataFromString
 
-        switch(type){
-            case 'USERNAME':
-                return _userPsw[0];
-                break;
-            case 'PASSWORD':
-                return _userPsw[1];
-                break;
-            case 'SERVER':
-                return _serverPort[0];
-                break;
-            case 'PORT':
-                return _serverPort[1];
-                break;
-        }
-    }//getProxyUsername
+    function proxyDataToString(data) {
+        var str = '';
+        
+        if (data.protocol)                  str += data.protocol + '://';
+        if (data.username && data.password) str += data.username + ':' + data.password + '@';
+        /* if true */                       str += data.server;
+        if (data.port)                      str += ':' + data.port;
+        
+        return str;
+    }//proxyDataToString
 
     function loadPreferences() {
         var _proxyString = PreferencesManager.get("proxy");
         if (_proxyString == null || _proxyString == undefined) {
             _proxyString = prefs.get("proxy-string");
         }
-
-        var _proxyProtocol = getProxyProtocol(_proxyString);
+      
+        var _proxyData;
+        if (_proxyString) {
+            _proxyData = proxyDataFromString(_proxyString);
+        }
+        
         /* Code Inspection */
         $('#prefUI-cI').prop('checked', (PreferencesManager.get("linting.enabled") == true) ? true : false);
         /* useTabChar */
@@ -84,13 +80,13 @@ define(function (require, exports, module) {
         $('#prefUI-wordWrap').prop('checked', (PreferencesManager.get("wordWrap") == true) ? true : false);
         /* proxy */
         $('#prefUI-proxyEnabled').prop('checked', (prefs.get("proxy-enabled") == true) ? true : false);
-        $('input[name=prefUI-proxyProtocol][value='+_proxyProtocol+']').attr('checked', true);
-
-        if(_proxyString != undefined && _proxyString != null) {
-            $('#prefUI-proxyUsername').val(getProxyData(_proxyProtocol, _proxyString, 'USERNAME'));
-            $('#prefUI-proxyPsw').val(getProxyData(_proxyProtocol, _proxyString, 'PASSWORD'));
-            $('#prefUI-proxyServer').val(getProxyData(_proxyProtocol, _proxyString, 'SERVER'));
-            $('#prefUI-proxyPort').val(getProxyData(_proxyProtocol, _proxyString, 'PORT'));
+        
+        if (_proxyData) {
+            $('input[name=prefUI-proxyProtocol][value='+(_proxyData.protocol || 'none')+']').attr('checked', true);
+            $('#prefUI-proxyUsername').val(_proxyData.username || '');
+            $('#prefUI-proxyPsw').val(_proxyData.password || '');
+            $('#prefUI-proxyServer').val(_proxyData.server || '');
+            $('#prefUI-proxyPort').val(_proxyData.port || '');
         }
         $("#prefUI-proxy").val(PreferencesManager.get("proxy"));
         /* smartIndent */
@@ -174,16 +170,19 @@ define(function (require, exports, module) {
             PreferencesManager.set("wordWrap", ($('#prefUI-wordWrap').is(':checked')) ? true : false);
             /* proxy */
             prefs.set("proxy-enabled", $('#prefUI-proxyEnabled').is(':checked'));
-            var _proxyString = "";
-
-            if($('input[name=prefUI-proxyProtocol]:checked').val() != "none"){
-                _proxyString = $('input[name=prefUI-proxyProtocol]:checked').val() + "://";
-            }
-            _proxyString = _proxyString +
-                           $("#prefUI-proxyUsername").val()                    + ":" +
-                           $("#prefUI-proxyPsw").val()                         + "@" +
-                           $("#prefUI-proxyServer").val()                      + ":" +
-                           $("#prefUI-proxyPort").val();
+            
+            var _protocol = $('input[name=prefUI-proxyProtocol]:checked').val();
+            if (_protocol == 'none')
+                _protocol = undefined;
+            
+            var _proxyString = proxyDataToString({
+                protocol: _protocol,
+                username: $("#prefUI-proxyUsername").val(),
+                password: $("#prefUI-proxyPsw").val(),
+                server: $("#prefUI-proxyServer").val(),
+                port: $("#prefUI-proxyPort").val(),
+            });
+            
             PreferencesManager.set("proxy", ($('#prefUI-proxyEnabled').is(':checked')) ? _proxyString : undefined);
             prefs.set("proxy-string", _proxyString);
             /* smartIndent */
