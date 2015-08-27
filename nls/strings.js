@@ -16,6 +16,7 @@ define(function (require, exports, module) {
     module.exports = {
         root: true,
         fi  : true,
+        fr  : true,
         it  : true,
         tr  : true
     };
