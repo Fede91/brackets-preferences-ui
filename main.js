@@ -31,31 +31,35 @@ define(function (require, exports, module) {
         prefs               = PreferencesManager.getExtensionPrefs("prefUI");
 
     var Strings             = require("strings");
-
-    function proxyDataFromString(str) {
-        var matches = /^(?:(https?):\/\/)?(?:([^\s:@]+):([^\s:@]+)@)?([^\s:@]+)(?::([0-9]+))?$/i.exec(str);
-
-        if (matches)
-            return {
-                protocol: matches[1],
-                username: matches[2],
-                password: matches[3],
-                server:   matches[4],
-                port:     matches[5],
-            };
-        return null;
-    }//proxyDataFromString
-
-    function proxyDataToString(data) {
-        var str = '';
+  
+    var proxyURLHelper = {
+        regExp: /^(?:(https?):\/\/)?(?:([^\s:@]+):([^\s:@]+)@)?([^\s:@]+)(?::([0-9]+))?$/i,
         
-        if (data.protocol)                  str += data.protocol + '://';
-        if (data.username && data.password) str += data.username + ':' + data.password + '@';
-        /* if true */                       str += data.server;
-        if (data.port)                      str += ':' + data.port;
+        dataFromString: function(str) {
+            var matches = this.regExp.exec(str);
+
+            if (matches)
+                return {
+                    protocol: matches[1],
+                    username: matches[2],
+                    password: matches[3],
+                    server:   matches[4],
+                    port:     matches[5],
+                };
+            return null;
+        },
         
-        return str;
-    }//proxyDataToString
+        dataToString: function(data) {
+            var str = '';
+            
+            if (data.protocol)                  str += data.protocol + '://';
+            if (data.username && data.password) str += data.username + ':' + data.password + '@';
+            /* if true */                       str += data.server;
+            if (data.port)                      str += ':' + data.port;
+            
+            return this.regExp.test(str)? str : '';
+        },
+    };
 
     function loadPreferences() {
         var _proxyString = PreferencesManager.get("proxy");
@@ -65,7 +69,7 @@ define(function (require, exports, module) {
       
         var _proxyData;
         if (_proxyString) {
-            _proxyData = proxyDataFromString(_proxyString);
+            _proxyData = proxyURLHelper.dataFromString(_proxyString);
         }
         
         /* Code Inspection */
@@ -175,12 +179,12 @@ define(function (require, exports, module) {
             if (_protocol == 'none')
                 _protocol = undefined;
             
-            var _proxyString = proxyDataToString({
+            var _proxyString = proxyURLHelper.dataToString({
                 protocol: _protocol,
                 username: $("#prefUI-proxyUsername").val(),
                 password: $("#prefUI-proxyPsw").val(),
-                server: $("#prefUI-proxyServer").val(),
-                port: $("#prefUI-proxyPort").val(),
+                server:   $("#prefUI-proxyServer").val(),
+                port:     $("#prefUI-proxyPort").val(),
             });
             
             PreferencesManager.set("proxy", ($('#prefUI-proxyEnabled').is(':checked')) ? _proxyString : undefined);
