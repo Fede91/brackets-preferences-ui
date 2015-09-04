@@ -31,121 +31,121 @@ define(function (require, exports, module) {
         prefs               = PreferencesManager.getExtensionPrefs("prefUI");
 
     var Strings             = require("strings");
+  
+    var proxyURLHelper = {
+        regExp: /^(?:(https?):\/\/)?(?:([^\s:@]+):([^\s:@]+)@)?([^\s:@]+)(?::([0-9]+))?$/i,
+        
+        dataFromString: function(str) {
+            var matches = this.regExp.exec(str);
 
-    function getProxyProtocol(proxyString) {
-        if (proxyString != undefined && proxyString.indexOf('https') > -1) {
-            return 'https';
-        }
-        if (proxyString != undefined && proxyString.indexOf('http') > -1) {
-            return 'http';
-        }
-        return 'none';
-    }//getProxyProtocol
-
-    function getProxyData(proxyProtocol, proxyString, type) {
-        var _protocolLength = (proxyProtocol == 'none') ? 0 : proxyProtocol.length+3;
-        var _proxySNoProt = proxyString.substring(_protocolLength);
-        var _splitPS = _proxySNoProt.split('@');
-        var _userPsw = _splitPS[0].split(':');
-        var _serverPort = _splitPS[1].split(':');
-
-        switch(type){
-            case 'USERNAME':
-                return _userPsw[0];
-                break;
-            case 'PASSWORD':
-                return _userPsw[1];
-                break;
-            case 'SERVER':
-                return _serverPort[0];
-                break;
-            case 'PORT':
-                return _serverPort[1];
-                break;
-        }
-    }//getProxyUsername
+            if (matches)
+                return {
+                    protocol: matches[1],
+                    username: matches[2],
+                    password: matches[3],
+                    server:   matches[4],
+                    port:     matches[5],
+                };
+            return null;
+        },
+        
+        dataToString: function(data) {
+            var str = '';
+            
+            if (data.protocol)                  str += data.protocol + '://';
+            if (data.username && data.password) str += data.username + ':' + data.password + '@';
+            /* if true */                       str += data.server;
+            if (data.port)                      str += ':' + data.port;
+            
+            return this.regExp.test(str)? str : '';
+        },
+    };
 
     function loadPreferences() {
         var _proxyString = PreferencesManager.get("proxy");
         if (_proxyString == null || _proxyString == undefined) {
             _proxyString = prefs.get("proxy-string");
         }
-
-        var _proxyProtocol = getProxyProtocol(_proxyString);
-		/* Code Inspection */
-		$('#prefUI-cI').prop('checked', (PreferencesManager.get("linting.enabled") == true) ? true : false);
-		/* useTabChar */
-		$('#prefUI-tabChar').prop('checked', (PreferencesManager.get("useTabChar") == true) ? true : false);
-		/* tabSize */
-		$("#prefUI-tabSize").val(PreferencesManager.get("tabSize"));
-		/* spaceUnits */
-		$("#prefUI-spaceUnit").val(PreferencesManager.get("spaceUnits"));
-		/* wordWrap */
-		$('#prefUI-wordWrap').prop('checked', (PreferencesManager.get("wordWrap") == true) ? true : false);
-		/* proxy */
-		$('#prefUI-proxyEnabled').prop('checked', (prefs.get("proxy-enabled") == true) ? true : false);
-        $('input[name=prefUI-proxyProtocol][value='+_proxyProtocol+']').attr('checked', true);
-
-        if(_proxyString != undefined && _proxyString != null) {
-            $('#prefUI-proxyUsername').val(getProxyData(_proxyProtocol, _proxyString, 'USERNAME'));
-            $('#prefUI-proxyPsw').val(getProxyData(_proxyProtocol, _proxyString, 'PASSWORD'));
-            $('#prefUI-proxyServer').val(getProxyData(_proxyProtocol, _proxyString, 'SERVER'));
-            $('#prefUI-proxyPort').val(getProxyData(_proxyProtocol, _proxyString, 'PORT'));
+      
+        var _proxyData;
+        if (_proxyString) {
+            _proxyData = proxyURLHelper.dataFromString(_proxyString);
+        }
+        
+        /* Code Inspection */
+        $('#prefUI-cI').prop('checked', (PreferencesManager.get("linting.enabled")));
+        /* useTabChar */
+        $('#prefUI-tabChar').prop('checked', (PreferencesManager.get("useTabChar")));
+        /* tabSize */
+        $("#prefUI-tabSize").val(PreferencesManager.get("tabSize"));
+        /* spaceUnits */
+        $("#prefUI-spaceUnit").val(PreferencesManager.get("spaceUnits"));
+        /* wordWrap */
+        $('#prefUI-wordWrap').prop('checked', (PreferencesManager.get("wordWrap")));
+        /* proxy */
+        $('#prefUI-proxyEnabled').prop('checked', (prefs.get("proxy-enabled")));
+        
+        if (_proxyData) {
+            $('input[name=prefUI-proxyProtocol][value='+(_proxyData.protocol || 'none')+']').attr('checked', true);
+            $('#prefUI-proxyUsername').val(_proxyData.username || '');
+            $('#prefUI-proxyPsw').val(_proxyData.password || '');
+            $('#prefUI-proxyServer').val(_proxyData.server || '');
+            $('#prefUI-proxyPort').val(_proxyData.port || '');
         }
         $("#prefUI-proxy").val(PreferencesManager.get("proxy"));
         /* smartIndent */
-		$('#prefUI-smartIndent').prop('checked', (PreferencesManager.get("smartIndent") == true) ? true : false);
-		/* closeTags */
-		/* insertHintOnTab */
-		$('#prefUI-insertHint').prop('checked', (PreferencesManager.get("insertHintOnTab") == true) ? true : false);
-		/* sortDirectoriesFirst */
-		$('#prefUI-sortDir').prop('checked', (PreferencesManager.get("sortDirectoriesFirst") == true) ? true : false);
-		/* staticserver.port */
-		$("#prefUI-serverPort").val(PreferencesManager.get("staticserver.port"));
-		/* scrollPastEnd */
-		$('#prefUI-scrollPastEnd').prop('checked', (PreferencesManager.get("scrollPastEnd") == true) ? true : false);
-		/* softTabs */
-		$('#prefUI-softTabs').prop('checked', (PreferencesManager.get("softTabs") == true) ? true : false);
+        $('#prefUI-smartIndent').prop('checked', (PreferencesManager.get("smartIndent")));
+        /* closeTags */
+        /* insertHintOnTab */
+        $('#prefUI-insertHint').prop('checked', (PreferencesManager.get("insertHintOnTab")));
+        /* sortDirectoriesFirst */
+        $('#prefUI-sortDir').prop('checked', (PreferencesManager.get("sortDirectoriesFirst")));
+        /* staticserver.port */
+        $("#prefUI-serverPort").val(PreferencesManager.get("staticserver.port"));
+        /* scrollPastEnd */
+        $('#prefUI-scrollPastEnd').prop('checked', (PreferencesManager.get("scrollPastEnd")));
+        /* softTabs */
+        $('#prefUI-softTabs').prop('checked', (PreferencesManager.get("softTabs")));
         /* closeBrackets */
-        $('#prefUI-closeBrackets').prop('checked', (PreferencesManager.get("closeBrackets") == true) ? true : false);
+        $('#prefUI-closeBrackets').prop('checked', (PreferencesManager.get("closeBrackets")));
         /* dragDropText */
-        $('#prefUI-dragDropText').prop('checked', (PreferencesManager.get("dragDropText") == true) ? true : false);
+        $('#prefUI-dragDropText').prop('checked', (PreferencesManager.get("dragDropText")));
         /* showCursorWhenSelecting */
-        $('#prefUI-showCursorWhenSelecting').prop('checked', (PreferencesManager.get("showCursorWhenSelecting") == true) ? true : false);
+        $('#prefUI-showCursorWhenSelecting').prop('checked', (PreferencesManager.get("showCursorWhenSelecting")));
         /* uppercaseColors */
-        $('#prefUI-uppercaseColors').prop('checked', (PreferencesManager.get("uppercaseColors") == true) ? true : false);
+        $('#prefUI-uppercaseColors').prop('checked', (PreferencesManager.get("uppercaseColors")));
         /* highlightMatches */
-        $('#prefUI-highlightMatches').prop('checked', (PreferencesManager.get("highlightMatches") == true) ? true : false);
+        $('#prefUI-highlightMatches').prop('checked', (PreferencesManager.get("highlightMatches")));
         /* showCodeHints */
-        $('#prefUI-showCodeHints').prop('checked', (PreferencesManager.get("showCodeHints") == true) ? true : false);
+        $('#prefUI-showCodeHints').prop('checked', (PreferencesManager.get("showCodeHints")));
         /* maxCodeHints */
         $("#prefUI-maxCodeHints").val(PreferencesManager.get("maxCodeHints"));
         /* codehint.TagHints */
-        $('#prefUI-TagHints').prop('checked', (PreferencesManager.get("codehint.TagHints") == true) ? true : false);
+        $('#prefUI-TagHints').prop('checked', (PreferencesManager.get("codehint.TagHints")));
         /* codehint.SpecialCharHints */
-        $('#prefUI-SpecialCharHints').prop('checked', (PreferencesManager.get("codehint.SpecialCharHints") == true) ? true : false);
+        $('#prefUI-SpecialCharHints').prop('checked', (PreferencesManager.get("codehint.SpecialCharHints")));
         /* codehint.AttrHints */
-        $('#prefUI-AttrHints').prop('checked', (PreferencesManager.get("codehint.AttrHints") == true) ? true : false);
+        $('#prefUI-AttrHints').prop('checked', (PreferencesManager.get("codehint.AttrHints")));
         /* codehint.CssPropHints */
-        $('#prefUI-CssPropHints').prop('checked', (PreferencesManager.get("codehint.CssPropHints") == true) ? true : false);
+        $('#prefUI-CssPropHints').prop('checked', (PreferencesManager.get("codehint.CssPropHints")));
         /* codehint.JSHints */
-        $('#prefUI-JSHints').prop('checked', (PreferencesManager.get("codehint.JSHints") == true) ? true : false);
+        $('#prefUI-JSHints').prop('checked', (PreferencesManager.get("codehint.JSHints")));
         /* codehint.SVGHints */
-        $('#prefUI-SVGHints').prop('checked', (PreferencesManager.get("codehint.SVGHints") == true) ? true : false);
+        $('#prefUI-SVGHints').prop('checked', (PreferencesManager.get("codehint.SVGHints")));
         /* codehint.UrlCodeHints */
-        $('#prefUI-UrlCodeHints').prop('checked', (PreferencesManager.get("codehint.UrlCodeHints") == true) ? true : false);
+        $('#prefUI-UrlCodeHints').prop('checked', (PreferencesManager.get("codehint.UrlCodeHints")));
         /* jscodehints.noHintsOnDot */
-        $('#prefUI-noHintsOnDot').prop('checked', (PreferencesManager.get("jscodehints.noHintsOnDot") == true) ? true : false);
+        $('#prefUI-noHintsOnDot').prop('checked', (PreferencesManager.get("jscodehints.noHintsOnDot")));
 
         /* CodeFolding */
         /* code-folding​.alwaysUseIndentFold */
-        $('#prefUI-CFIndentFold').prop('checked', (PreferencesManager.get("code-folding.alwaysUseIndentFold") == true) ? true : false);
+        $('#prefUI-CFIndentFold').prop('checked', (PreferencesManager.get("code-folding.alwaysUseIndentFold")));
         /* code-folding.enabled */
-        $('#prefUI-CFEnabled').prop('checked', (PreferencesManager.get("code-folding.enabled") == true) ? true : false);
+        $('#prefUI-CFEnabled').prop('checked', (PreferencesManager.get("code-folding.enabled")));
         /* code-folding.hideUntilMouseover */
-        $('#prefUI-CFHideMouseOver').prop('checked', (PreferencesManager.get("code-folding.hideUntilMouseover") == true) ? true : false);
+        $('#prefUI-CFHideMouseOver').prop('checked', (PreferencesManager.get("code-folding.hideUntilMouseover")));
         /* code-folding.saveFoldStates */
-        $('#prefUI-CFSaveFoldState').prop('checked', (PreferencesManager.get("code-folding.saveFoldStates") == true) ? true : false);
+        $('#prefUI-CFSaveFoldState').prop('checked', (PreferencesManager.get("code-folding.saveFoldStates")));
         /* code-folding.maxFoldLevel */
         $("#prefUI-CFMaxFoldLevel").val(PreferencesManager.get("code-folding.maxFoldLevel"));
         /* code-folding.minFoldSize */
@@ -160,85 +160,88 @@ define(function (require, exports, module) {
         /* Set current values */
         loadPreferences();
 
-		$("#prefUISubmit").on("click", function (e) {
+    $("#prefUISubmit").on("click", function (e) {
             /* jslint.options */
             /* Code Inspection */
-            PreferencesManager.set("linting.enabled", ($('#prefUI-cI').is(':checked')) ? true : false);
+            PreferencesManager.set("linting.enabled", ($('#prefUI-cI').is(':checked')));
             /* useTabChar */
-            PreferencesManager.set("useTabChar", ($('#prefUI-tabChar').is(':checked')) ? true : false);
+            PreferencesManager.set("useTabChar", ($('#prefUI-tabChar').is(':checked')));
             /* tabSize */
             PreferencesManager.set("tabSize", $("#prefUI-tabSize").val());
             /* spaceUnits */
             PreferencesManager.set("spaceUnits", $("#prefUI-spaceUnit").val());
             /* wordWrap */
-            PreferencesManager.set("wordWrap", ($('#prefUI-wordWrap').is(':checked')) ? true : false);
+            PreferencesManager.set("wordWrap", ($('#prefUI-wordWrap').is(':checked')));
             /* proxy */
             prefs.set("proxy-enabled", $('#prefUI-proxyEnabled').is(':checked'));
-            var _proxyString = "";
-
-            if($('input[name=prefUI-proxyProtocol]:checked').val() != "none"){
-                _proxyString = $('input[name=prefUI-proxyProtocol]:checked').val() + "://";
-            }
-            _proxyString = _proxyString +
-                           $("#prefUI-proxyUsername").val()                    + ":" +
-                           $("#prefUI-proxyPsw").val()                         + "@" +
-                           $("#prefUI-proxyServer").val()                      + ":" +
-                           $("#prefUI-proxyPort").val();
+            
+            var _protocol = $('input[name=prefUI-proxyProtocol]:checked').val();
+            if (_protocol == 'none')
+                _protocol = undefined;
+            
+            var _proxyString = proxyURLHelper.dataToString({
+                protocol: _protocol,
+                username: $("#prefUI-proxyUsername").val(),
+                password: $("#prefUI-proxyPsw").val(),
+                server:   $("#prefUI-proxyServer").val(),
+                port:     $("#prefUI-proxyPort").val(),
+            });
+            
             PreferencesManager.set("proxy", ($('#prefUI-proxyEnabled').is(':checked')) ? _proxyString : undefined);
             prefs.set("proxy-string", _proxyString);
             /* smartIndent */
-            PreferencesManager.set("smartIndent", ($('#prefUI-smartIndent').is(':checked')) ? true : false);
+            PreferencesManager.set("smartIndent", ($('#prefUI-smartIndent').is(':checked')));
             /* closeTags */
             /* insertHintOnTab */
-            PreferencesManager.set("insertHintOnTab", ($('#prefUI-insertHint').is(':checked')) ? true : false);
+            PreferencesManager.set("insertHintOnTab", ($('#prefUI-insertHint').is(':checked')));
             /* sortDirectoriesFirst */
-            PreferencesManager.set("sortDirectoriesFirst", ($('#prefUI-sortDir').is(':checked')) ? true : false);
+            PreferencesManager.set("sortDirectoriesFirst", ($('#prefUI-sortDir').is(':checked')));
             /* staticserver.port */
             PreferencesManager.set("staticserver.port", $("#prefUI-serverPort").val());
             /* scrollPastEnd */
-            PreferencesManager.set("scrollPastEnd", ($('#prefUI-scrollPastEnd').is(':checked')) ? true : false);
+            PreferencesManager.set("scrollPastEnd", ($('#prefUI-scrollPastEnd').is(':checked')));
             /* softTabs */
-            PreferencesManager.set("softTabs", ($('#prefUI-softTabs').is(':checked')) ? true : false);
+            PreferencesManager.set("softTabs", ($('#prefUI-softTabs').is(':checked')));
             /* closeBrackets */
-            PreferencesManager.set("closeBrackets", ($('#prefUI-closeBrackets').is(':checked')) ? true : false);
+            PreferencesManager.set("closeBrackets", ($('#prefUI-closeBrackets').is(':checked')));
             /* dragDropText */
-            PreferencesManager.set("dragDropText", ($('#prefUI-dragDropText').is(':checked')) ? true : false);
+            PreferencesManager.set("dragDropText", ($('#prefUI-dragDropText').is(':checked')));
             /* showCursorWhenSelecting */
-            PreferencesManager.set("showCursorWhenSelecting", ($('#prefUI-showCursorWhenSelecting').is(':checked')) ? true : false);
+            PreferencesManager.set("showCursorWhenSelecting", ($('#prefUI-showCursorWhenSelecting').is(':checked')));
             /* uppercaseColors */
-            PreferencesManager.set("uppercaseColors", ($('#prefUI-uppercaseColors').is(':checked')) ? true : false);
+            PreferencesManager.set("uppercaseColors", ($('#prefUI-uppercaseColors').is(':checked')));
             /* highlightMatches */
-            PreferencesManager.set("highlightMatches", ($('#prefUI-highlightMatches').is(':checked')) ? true : false);
+            PreferencesManager.set("highlightMatches", ($('#prefUI-highlightMatches').is(':checked')));
             /* showCodeHints */
-            PreferencesManager.set("showCodeHints", ($('#prefUI-showCodeHints').is(':checked')) ? true : false);
+            PreferencesManager.set("showCodeHints", ($('#prefUI-showCodeHints').is(':checked')));
             /* maxCodeHints */
             PreferencesManager.set("maxCodeHints", $("#prefUI-maxCodeHints").val());
             /* codehint.TagHints */
-            PreferencesManager.set("codehint.TagHints", ($('#prefUI-TagHints').is(':checked')) ? true : false);
+            PreferencesManager.set("codehint.TagHints", ($('#prefUI-TagHints').is(':checked')));
             /* codehint.SpecialCharHints */
-            PreferencesManager.set("codehint.SpecialCharHints", ($('#prefUI-SpecialCharHints').is(':checked')) ? true : false);
+            PreferencesManager.set("codehint.SpecialCharHints", ($('#prefUI-SpecialCharHints').is(':checked')));
             /* codehint.AttrHints */
-            PreferencesManager.set("codehint.AttrHints", ($('#prefUI-AttrHints').is(':checked')) ? true : false);
+            PreferencesManager.set("codehint.AttrHints", ($('#prefUI-AttrHints').is(':checked')));
             /* codehint.CssPropHints */
-            PreferencesManager.set("codehint.CssPropHints", ($('#prefUI-CssPropHints').is(':checked')) ? true : false);
+            PreferencesManager.set("codehint.CssPropHints", ($('#prefUI-CssPropHints').is(':checked')));
             /* codehint.JSHints */
-            PreferencesManager.set("codehint.JSHints", ($('#prefUI-JSHints').is(':checked')) ? true : false);
+            PreferencesManager.set("codehint.JSHints", ($('#prefUI-JSHints').is(':checked')));
             /* codehint.SVGHints */
-            PreferencesManager.set("codehint.SVGHints", ($('#prefUI-SVGHints').is(':checked')) ? true : false);
+            PreferencesManager.set("codehint.SVGHints", ($('#prefUI-SVGHints').is(':checked')));
             /* codehint.UrlCodeHints */
-            PreferencesManager.set("codehint.UrlCodeHints", ($('#prefUI-UrlCodeHints').is(':checked')) ? true : false);
+            PreferencesManager.set("codehint.UrlCodeHints", ($('#prefUI-UrlCodeHints').is(':checked')));
             /* jscodehints.noHintsOnDot */
-            PreferencesManager.set("jscodehints.noHintsOnDot", ($('#prefUI-noHintsOnDot').is(':checked')) ? true : false);
+            PreferencesManager.set("jscodehints.noHintsOnDot", ($('#prefUI-noHintsOnDot').is(':checked')));
 
             /* CodeFolding */
             /* code-folding.alwaysUseIndentFold */
-            PreferencesManager.set("code-folding.alwaysUseIndentFold", ($('#prefUI-CFIndentFold').is(':checked')) ? true : false);
+            PreferencesManager.set("code-folding.alwaysUseIndentFold", ($('#prefUI-CFIndentFold').is(':checked')));
             /* code-folding.enabled */
-            PreferencesManager.set("code-folding.enabled", ($('#prefUI-CFEnabled').is(':checked')) ? true : false);
+            PreferencesManager.set("code-folding.enabled", ($('#prefUI-CFEnabled').is(':checked')));
             /* code-folding​.hideUntilMouseover */
-            PreferencesManager.set("code-folding.hideUntilMouseover", ($('#prefUI-CFHideMouseOver').is(':checked')) ? true : false);
+            PreferencesManager.set("code-folding.hideUntilMouseover", ($('#prefUI-CFHideMouseOver').is(':checked')));
             /* code-folding.saveFoldStates */
-            PreferencesManager.set("code-folding.saveFoldStates", ($('#prefUI-CFSaveFoldState').is(':checked')) ? true : false);
+            PreferencesManager.set("code-folding.saveFoldStates", ($('#prefUI-CFSaveFoldState').is(':checked')));
             /* code-folding.maxFoldLevel */
             PreferencesManager.set("code-folding.maxFoldLevel", $("#prefUI-CFMaxFoldLevel").val());
             /* code-folding.minFoldSize */
