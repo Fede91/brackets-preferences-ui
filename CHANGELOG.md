@@ -1,5 +1,11 @@
 # Brackets Preferences-UI Changelog
 
+## v1.4.0
+* Issue #17: 
+  * Add French Translation
+  * Fix and improve parsing of proxy string
+  * Refactor proxy URL code
+
 ## v1.2.0
 * #15: Added Code Folding settings
 * #13: Fix standard themes
