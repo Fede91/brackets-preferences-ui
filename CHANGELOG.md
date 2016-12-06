@@ -1,4 +1,9 @@
-# Brackets Preferences-UI Changelog
+# Adobe Brackets Preferences-UI Changelog
+
+## v2.0.0
+* New User Interface
+* Dynamic loading of preferences. Now all Adobe Brackets's settings are displayed.
+* Interaction with other extensions. See more details on [Wiki]()
 
 ## v1.4.0
 * Issue #17: 
