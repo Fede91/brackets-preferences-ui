@@ -1,64 +1,48 @@
-
-.prefUI-body {
-    padding: 20px !important;
-}
-
-.prefUI-sect-body {
-    padding-left: 20px;
-}
-
-.mg-top {
-    margin-top: 10px;
-}
-
-.no-magin{
-    width: 10%;
-    text-align: right;
-    float: left;
-    margin-left: 0px;
-}
-
-.prefUI-proxy-pref {
-    margin-left: 120px;
-}
-
-.prefUI-proxy-pref div span {
-    float: left;
-    margin-left:15px;
-}
-
 .prefUI-dialog .modal-header {
-    padding: 0px;
+    padding: 9px 15px;
+}
+.prefUI-body {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+.prefUI-body ul {
+  list-style-type: none !important;
+}
+.prefUI-body a {
+    text-decoration: none;
+}
+.prefUI-sideBar {
+    width: 100px;
+    flex: 1;
+    overflow: auto;
+}
+.prefUI-container {
+    flex: 3;
+    overflow: auto;
+    padding-left: 10px;
+}
+.prefUI-container div {
+    clear: both;
+}
+.prefUI-input-error {
+    border:1px solid red !important;
+}
+.prefUI-inputErrorMsg {
+    color: red;
+    margin-top: -5px;
+    margin-bottom: 5px;
 }
 
-.prefUI-dialog .modal-header .nav-tabs {
-    /*border-color: #343434;*/
-    margin-bottom: 0px;
-    /*border-color: #343434;*/
-}
-
-.prefUI-proxy-prot-wrapper {
+.prefUI-radio-wrapper {
     clear: both;
 }
 
-.prefUI-dialog h1,
-.prefUI-dialog h2,
-.prefUI-dialog h3,
-.prefUI-dialog h4 {
-    margin-top: 0px;
-    margin-bottom: 10px !important;
-    line-height: 25px !important;
-}
-
-.prefUI-proxy-prot-wrapper label {
+.prefUI-radio-wrapper label {
     float: left;
     margin-left: 20px;
 }
 
-.prefUI-proxy-prot-wrapper label:first-child {
+.prefUI-radio-wrapper label:first-child {
     margin-left: 0px;
-}
-
-.prefUI-dialog .nav-tabs a {
-    font-size: 1.1em !important;
 }

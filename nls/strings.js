@@ -15,9 +15,9 @@ define(function (require, exports, module) {
     
     module.exports = {
         root: true,
-        fi  : true,
-        fr  : true,
+        fi  : false,
+        fr  : false,
         it  : true,
-        tr  : true
+        tr  : false
     };
 });
