@@ -3,7 +3,7 @@
 ## v2.0.0
 * New User Interface
 * Dynamic loading of preferences. Now all Adobe Brackets's settings are displayed.
-* Interaction with other extensions. See more details on [Wiki]()
+* Interaction with other extensions. See more details on [Wiki](https://github.com/Fede91/brackets-preferences-ui/wiki)
 
 ## v1.4.0
 * Issue #17: 

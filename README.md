@@ -18,7 +18,7 @@ You can also download zip directly from this repository ([link](https://github.c
 
 ## Are you an Adobe Brackets's extensions developer?
 
-If you are using custom preferences in your extensions, you can interact with the Preferences UI to enable the end user to view and change these parameters! Find out how in the [Wiki]()
+If you are using custom preferences in your extensions, you can interact with the Preferences UI to enable the end user to view and change these parameters! Find out how in the [Wiki](https://github.com/Fede91/brackets-preferences-ui/wiki)
 
 
 ## License
