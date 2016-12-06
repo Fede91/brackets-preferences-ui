@@ -3,7 +3,7 @@
     "title": "Preferences setup UI",
     "description": "Form for editing preferences.",
     "homepage": "https://github.com/Fede91/brackets-preferences-ui",
-    "version": "1.4.0",
+    "version": "2.0.0",
     "author": "Fede91 (http://federicobagato.it/)",
     "license": {
 		"type": "MIT"
@@ -27,6 +27,6 @@
         "url": "https://github.com/Fede91/brackets-preferences-ui/issues"
     },
     "engines": {
-        "brackets": ">=1.3.0"
+        "brackets": ">=1.6.0"
     }
 }
