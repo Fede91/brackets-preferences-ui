@@ -658,20 +658,23 @@ define(function (require, exports, module) {
 
                 var promise = FileUtils.readAsText(file);  // completes asynchronously
                 promise.done(function (text) {
-                    var _json = JSON.parse(text);
-                    
-                    extensionsPreferences.push(_json);
-                    
-                    $extWrapper.append("<li><a href='#' data-anchor-to='" + Object.keys(_json)[0] + "'>" +  _getLabelText(Object.keys(_json)[0], _json[Object.keys(_json)[0]]) + "</a></li>");
-                    $extContentWrapper.append("<h3 data-hook='"+  Object.keys(_json)[0] +"'>" + _getLabelText(Object.keys(_json)[0], _json[Object.keys(_json)[0]]) + "</h3>");
-                    
-                     Object.keys(_json[Object.keys(_json)[0]].keys).sort().forEach(function (property) {
-                        
-                        $extContentWrapper.append(_getElementDOM( property , _json[Object.keys(_json)[0]].keys[property], PreferencesManager.get(property)));
-                         
-                     });
-                    _addListeners()
-                     
+                    try {
+						var _json = JSON.parse(text);
+						
+						extensionsPreferences.push(_json);
+						
+						$extWrapper.append("<li><a href='#' data-anchor-to='" + Object.keys(_json)[0] + "'>" +  _getLabelText(Object.keys(_json)[0], _json[Object.keys(_json)[0]]) + "</a></li>");
+						$extContentWrapper.append("<h3 data-hook='"+  Object.keys(_json)[0] +"'>" + _getLabelText(Object.keys(_json)[0], _json[Object.keys(_json)[0]]) + "</h3>");
+						
+						 Object.keys(_json[Object.keys(_json)[0]].keys).sort().forEach(function (property) {
+							
+							$extContentWrapper.append(_getElementDOM( property , _json[Object.keys(_json)[0]].keys[property], PreferencesManager.get(property)));
+							 
+						 });
+						_addListeners()
+					} catch (e){
+						;
+					}	 
                 })
                 .fail(function (errorCode) {
                     ///console.log("Error: " + errorCode);
@@ -682,7 +685,7 @@ define(function (require, exports, module) {
         
     }
     
-    CommandManager.register(Strings.TITLE_PREFERENCES, PREFUI_COMMAND_ID, handlePreferencesUI);
+    CommandManager.register(Strings.BRACKETS_MENU_LABEL, PREFUI_COMMAND_ID, handlePreferencesUI);
     var menu = Menus.getMenu(Menus.AppMenuBar.VIEW_MENU);
     menu.addMenuDivider();
     menu.addMenuItem(PREFUI_COMMAND_ID);
