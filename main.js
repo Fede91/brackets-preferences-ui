@@ -372,14 +372,20 @@ define(function (require, exports, module) {
                         _DOM = '<div><h4 data-pref-id="'+prefKey+'"  data-pref-type="'+_prefData.type+'">' + _getLabelText(prefKey, _prefData) + '</h4>'
                         
                         for(var i=0; i<  Object.keys( _keysObj ).length; i++ ) {
-                            var _currKey = Object.keys( _keysObj )[i];
-                            
-                            var _actualVal = PreferencesManager.get(prefKey)[_currKey];
-                            
-                            if(typeof _actualVal == 'undefined')
-                                _actualVal = PreferencesManager.get(_currKey);
-                            
-                            _DOM += _getElementDOM(_currKey, _keysObj[_currKey], _actualVal)
+                            try {
+                                var _currKey = Object.keys( _keysObj )[i];
+
+                                var _actualVal = PreferencesManager.get(prefKey)[_currKey];
+
+                                if(typeof _actualVal == 'undefined')
+                                    _actualVal = PreferencesManager.get(_currKey);
+
+                                _DOM += _getElementDOM(_currKey, _keysObj[_currKey], _actualVal)
+                            } catch(e) {
+                                console.warn("[PREFERENCES_UI] Key: " + prefKey );
+                                console.warn(_prefData);
+                                printConsoleWarning("_createElement", "EXCEPTION on type " + _prefData.type + ". Master key: " + prefKey +"; Index:" + i); //warning message
+                            }
                         }
                         
                          _DOM += '</div>';
