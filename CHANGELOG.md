@@ -1,5 +1,15 @@
 # Adobe Brackets Preferences-UI Changelog
 
+# v2.1.0
+* Code refactoring
+* Supported extensions:
+  * [Beautify](https://github.com/drewhamlett/brackets-beautify)
+  * [Brackets Icons](https://github.com/ivogabe/Brackets-Icons)
+  * [Brackets Git](https://github.com/zaggino/brackets-git) *beta*
+
+## v2.0.2
+* Fixed issue #20
+
 ## v2.0.0
 * New User Interface
 * Dynamic loading of preferences. Now all Adobe Brackets's settings are displayed.

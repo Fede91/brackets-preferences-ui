@@ -24,15 +24,21 @@ define(function (require, exports, module) {
         Dialogs            = brackets.getModule("widgets/Dialogs"),
         ExtensionUtils     = brackets.getModule("utils/ExtensionUtils"),
         Mustache           = brackets.getModule("thirdparty/mustache/mustache"),
-        PreferencesManager = brackets.getModule("preferences/PreferencesManager");
+        PreferencesManager = brackets.getModule("preferences/PreferencesManager"),
+        ExtensionManager   = brackets.getModule("extensibility/ExtensionManager"),
+        FileSystem         = brackets.getModule("filesystem/FileSystem"),
+        FileUtils          = brackets.getModule("file/FileUtils");
     
-    var PanelTemplate = require("text!panel.html");
-    var Strings       = require("strings");
+    var PanelTemplate  = require("text!panel.html");
+    var Strings        = require("strings"),
+        PrefUIExtensionsConf = require("./config/extensions").extensions; // All extensions supported
     
     var PREFUI_COMMAND_ID = "preferencesui.execute";
     var STD_MESSAGE = "Please try to update the version of 'Preferences setup UI' extension. If this problem has not been solved, write us a message with this Warning on Github: https://goo.gl/OLym9g";
     
-    var extensionsPreferences = [];
+    var extensionsPreferences = [],
+        userExtensionsDataList = [],
+        extensionsKeyPreferencesMap = {};
     
     var _SYSTEM_CUSTOM_OVERRIDE_MAP = { proxy: "prefUI.proxy" }
     
@@ -203,6 +209,24 @@ define(function (require, exports, module) {
     }
     
     function _saveCustomPreferences() {
+        // prefUi extensions preferences managed
+        Object.keys(userExtensionsDataList).sort().forEach(function (key) {
+            if(typeof PrefUIExtensionsConf[key] != 'undefined' ) {
+                
+                Object.keys(PrefUIExtensionsConf[key].keys).sort().forEach(function (cK) {
+                    var _currentVal = PreferencesManager.get(cK);
+                    var _newVal = _getFormValue(cK, PrefUIExtensionsConf[key].keys[cK].type);
+                    
+                    if( _newVal !== _currentVal ) {
+                        PreferencesManager.set(cK, _newVal);
+                    }
+
+                });
+                
+            }
+        });
+        
+        // preferences.json preferences
         Object.keys(_SYSTEM_CUSTOM_OVERRIDE_MAP).sort().forEach(function (sysKey) {
             var _customKey = _SYSTEM_CUSTOM_OVERRIDE_MAP[sysKey];
             Object.keys(CUSTOM_SETTINGS[_customKey].keys).sort().forEach(function (cK) {
@@ -260,6 +284,8 @@ define(function (require, exports, module) {
         });
         
         _saveCustomPreferences();
+        
+        // save the preferences loaded from external files
         _saveExtensionsPreferences();
         
     }// _savePreferences
@@ -278,14 +304,14 @@ define(function (require, exports, module) {
                     _checked = (obj.initial) ? "checked" : "";
                 }
                 
-                _DOM = '<label>' +
+                _DOM = '<div><label>' +
                            '<input type="checkbox" data-pref-id="' + key + '" data-pref-type="'+obj.type+'" value="true" title="' + obj.description + '" '+_checked+'/>' +
                            _lblText +
-                       '</label>';
+                       '</label></div>';
                 
                 break;
             case "string":
-                _DOM = '<div><label>'+_lblText+'</label><input type="text" data-pref-id="' + key + '" data-pref-type="'+obj.type+'" title="' + obj.description + '" value="' + ((typeof userValue !== 'undefined') ? userValue : '' ) + '"></div>'
+                _DOM = '<div><label>'+_lblText+'</label><input type="text" data-pref-id="' + key + '" data-pref-type="'+obj.type+'" title="' + obj.description + '" value="' + ((typeof userValue !== 'undefined' && userValue !== null) ? userValue : '' ) + '"></div>'
                 break;
             case "number":
                 _DOM = '<div><label>'+_lblText+'</label><input type="number" data-pref-id="' + key + '" data-pref-type="'+obj.type+'" title="' + obj.description + '" value="' + ((typeof userValue !== 'undefined') ? userValue : '' ) + '" placeholder="Default: ' + ((typeof obj.initial !== 'undefined')? obj.initial : '0') +'"></div>'
@@ -542,12 +568,7 @@ define(function (require, exports, module) {
         
     }// _buildUI
     
-    
-    function handlePreferencesUI() {
-        ExtensionUtils.loadStyleSheet(module, "panel.css");
-        var localizedTemplate = Mustache.render(PanelTemplate, Strings);
-        Dialogs.showModalDialogUsingTemplate(localizedTemplate);
-        
+    function _createStructure() {
         var CHILD_EDITOR = ["closeOthers", "code-folding", "findInFiles", "fonts"];
         var _MENU_BRACKETS_CHILDS = ["proxy"];
 
@@ -560,7 +581,8 @@ define(function (require, exports, module) {
             "EXTENSIONS" : []
         }
 
-        var _rootMenuKey = Object.keys(PREFERENCES_STRUCTURE)[0];
+        var _rootMenuKey = Object.keys(PREFERENCES_STRUCTURE)[0],
+            _extMenuKey = Object.keys(PREFERENCES_STRUCTURE)[1];
         
         // Brackets settings management
         var allPrefs = PreferencesManager.getAllPreferences();
@@ -570,14 +592,15 @@ define(function (require, exports, module) {
 
                 var pref = allPrefs[property];
                 var _arrPref = property.split(".");
-
+                
+                
                 // IF element to EDITOR Sub-menu
-                if ( _arrPref.length === 1 && _MENU_BRACKETS_CHILDS.indexOf(_arrPref[0]) == -1 ) {
+                if ( _arrPref.length === 1 && _MENU_BRACKETS_CHILDS.indexOf(_arrPref[0]) == -1 && typeof extensionsKeyPreferencesMap[_arrPref[0]] == 'undefined' ) {
                     PREFERENCES_STRUCTURE[_rootMenuKey][0]["EDITOR"].push(_arrPref[0]) ;
-                } else if ( _arrPref.length === 1 && _MENU_BRACKETS_CHILDS.indexOf(_arrPref[0]) > -1 ) {
+                } else if ( _arrPref.length === 1 && _MENU_BRACKETS_CHILDS.indexOf(_arrPref[0]) > -1  && typeof extensionsKeyPreferencesMap[_arrPref[0]] == 'undefined' ) {
                     PREFERENCES_STRUCTURE[_rootMenuKey].push(_arrPref[0])
                 }
-                else if ( CHILD_EDITOR.indexOf(_arrPref[0]) > -1) {
+                else if ( CHILD_EDITOR.indexOf(_arrPref[0]) > -1 && typeof extensionsKeyPreferencesMap[_arrPref[0]] == 'undefined' ) {
 
                     var _added = false;
                     for (var i=0; i< PREFERENCES_STRUCTURE[ _rootMenuKey ][0]["EDITOR"].length; i++ ) {
@@ -613,7 +636,7 @@ define(function (require, exports, module) {
 
                     }
 
-                } else {
+                } else if( typeof extensionsKeyPreferencesMap[_arrPref[0]] == 'undefined' ) {
                     var _added = false;
                     for (var i=0; i< PREFERENCES_STRUCTURE[ _rootMenuKey ].length; i++ ) {
                     
@@ -635,7 +658,6 @@ define(function (require, exports, module) {
                     }
 
                 }
-
             }
         });
         
@@ -647,20 +669,22 @@ define(function (require, exports, module) {
         var $extWrapper = $('[data-wrapper="EXTENSIONS"] li:nth-child(2) ul'),
             $extContentWrapper = $('[data-panel-wrapper="EXTENSIONS"]');
         
-        // LOAD EXTERNAL FILES PREFERENCES ===
-        var ExtensionLoader =  brackets.getModule("utils/ExtensionLoader");
+        Object.keys(userExtensionsDataList).sort().forEach(function (key) {
+            if( typeof PrefUIExtensionsConf[key] != 'undefined' ) {
+                
+                $extWrapper.append("<li><a href='#' data-anchor-to='" + key + "'>" +  _getLabelText( key, PrefUIExtensionsConf[key] ) + "</a></li>");
+                $extContentWrapper.append("<h3 data-hook='"+  key +"'>" + _getLabelText( key, PrefUIExtensionsConf[key] ) + " <small>v"+ userExtensionsDataList[key].metadata.version +"</small></h3>");
 
-        var FileSystem = brackets.getModule("filesystem/FileSystem");
-        var Directory = brackets.getModule("filesystem/Directory");
-        var FileUtils = brackets.getModule("file/FileUtils");
+                 Object.keys(PrefUIExtensionsConf[key].keys).sort().forEach(function (property) {
 
-        Directory = FileSystem.getDirectoryForPath( ExtensionLoader.getUserExtensionPath() );
+                    $extContentWrapper.append(_getElementDOM( property , PrefUIExtensionsConf[key].keys[property], PreferencesManager.get(property)));
 
-        Directory.getContents( function(err, contents, contentsStats, contentsStatsErrors) {
-
-            for(var i=0; i<contents.length; i++) {
-
-                var file = FileSystem.getFileForPath(contents[i].fullPath + 'preferences.json');
+                 });
+                _addListeners()
+            } else {
+                // try to load the external file preferences.json if present in extension's path
+                
+                var file = FileSystem.getFileForPath(userExtensionsDataList[key].path + '/preferences.json');
 
                 var promise = FileUtils.readAsText(file);  // completes asynchronously
                 promise.done(function (text) {
@@ -685,15 +709,69 @@ define(function (require, exports, module) {
                 .fail(function (errorCode) {
                     ///console.log("Error: " + errorCode);
                 });
-
+                
             }
-        } )
+            
+        });
         
-    }
+    }// _createStructure
+    
+    function _initUserExtensionsList() {
+        console.log("[_initUserExtensionsList]")
+        
+        Object.keys(ExtensionManager.extensions).sort().forEach(function (key) {
+            
+            try {
+                if( ExtensionManager.extensions[key]['installInfo']['locationType'] == 'user' && ExtensionManager.extensions[key]['installInfo']['status'] == 'enabled' ) {
+                    userExtensionsDataList[key] = ExtensionManager.extensions[key]['installInfo'];
+                    
+                    // Load the map "preference Key" -> " plugin key "
+                    if( typeof PrefUIExtensionsConf[key] !== 'undefined' ) {
+                        extensionsKeyPreferencesMap[ PrefUIExtensionsConf[key]["preference-key"] ] = key;
+                        
+                    }
+                        
+                }
+            } catch(e) {
+                printConsoleWarning("_initUserExtensionsList", "Error loading the user extensions.");
+            }
+
+        });
+        console.log(userExtensionsDataList)
+        console.log(extensionsKeyPreferencesMap)
+    }// _initUserExtensionsList
+    
+    function handlePreferencesUI() {
+        ExtensionUtils.loadStyleSheet(module, "panel.css");
+        var localizedTemplate = Mustache.render(PanelTemplate, Strings);
+        Dialogs.showModalDialogUsingTemplate(localizedTemplate);
+        
+        // ==== LOAD PACKAGE =========
+        /*
+        var promisePck = ExtensionUtils.loadMetadata(ExtensionUtils.getModulePath(module));
+        
+        promisePck.done(function (data) {
+            // TODO
+            //console.log(ExtensionsConf)
+            console.log(data["extensions-supported"]);
+            console.log(PreferencesManager.getAllPreferences());
+            extensionsList = data["extensions-supported"];
+            _createStructure();
+            
+        })
+        .fail(function (errorCode) {
+            console.log("Error: " + errorCode);
+            _createStructure();
+        });*/
+        
+        // ==== ./LOAD PACKAGE =========
+        _initUserExtensionsList();
+        _createStructure();
+        
+    }// handlePreferencesUI
     
     CommandManager.register(Strings.BRACKETS_MENU_LABEL, PREFUI_COMMAND_ID, handlePreferencesUI);
     var menu = Menus.getMenu(Menus.AppMenuBar.VIEW_MENU);
     menu.addMenuDivider();
     menu.addMenuItem(PREFUI_COMMAND_ID);
-    
 });
