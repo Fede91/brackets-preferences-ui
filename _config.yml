@@ -1,0 +1,8 @@
+title: Brackets Preferences UI
+description: Adobe Brackets extension to change the application preferences.
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-architect
+
+gems:
+  - jekyll-mentions
